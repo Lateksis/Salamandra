@@ -6,7 +6,7 @@ window.onload = function() {
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
     var ship;
-    var cursors = game.input.keyboard.createCursorKeys();
+    var cursors;
 
     function preload () {
 
@@ -20,6 +20,7 @@ window.onload = function() {
         var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
         logo.anchor.setTo(0.5, 0.5);
         ship = game.add.sprite(0,0, 'ship');
+        cursors = game.input.keyboard.createCursorKeys();
 
     }
 
