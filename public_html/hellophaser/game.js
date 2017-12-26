@@ -14,7 +14,7 @@ window.onload = function() {
 
     function create () {
 
-        var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+        var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
         logo.anchor.setTo(0.5, 0.5);
 
     }
