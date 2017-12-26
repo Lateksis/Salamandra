@@ -5,10 +5,13 @@ window.onload = function() {
     //  Be sure to replace it with an updated version before you start experimenting with adding your own code.
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var ship;
+    cursors = game.input.keyboard.createCursorKeys();
 
     function preload () {
 
         game.load.image('bg', 'img/space_bg.png');
+        game.load.image('ship', 'img/ship.png');
 
     }
 
@@ -16,11 +19,23 @@ window.onload = function() {
 
         var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
         logo.anchor.setTo(0.5, 0.5);
+        ship = game.add.sprite(0,0, 'ship');
 
     }
 
     function update () {
-
+      if (cursors.left.isDown) {
+        ship.x -= 4;
+      }
+      if (cursors.right.isDown) {
+        ship.x += 4;
+      }
+      if (cursors.up.isDown) {
+        ship.y -= 4;
+      }
+      if (cursors.down.isDown) {
+        ship.y -= 4;
+      }
 
     }
 };
