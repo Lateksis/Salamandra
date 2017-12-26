@@ -35,7 +35,7 @@ window.onload = function() {
         ship.y -= 4;
       }
       if (cursors.down.isDown) {
-        ship.y -= 4;
+        ship.y += 4;
       }
 
     }
