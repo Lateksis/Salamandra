@@ -25,6 +25,8 @@ window.onload = function() {
 
     function create () {
 
+      game.world.setBounds(0,0,1200,320);
+
         var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
         logo.anchor.setTo(0.5, 0.5);
 
@@ -43,7 +45,6 @@ window.onload = function() {
       }
       if (cursors.right.isDown) {
         ship.x += 4;
-        game.camera.x +=2;
       }
       if (cursors.up.isDown) {
         ship.y -= 4;
@@ -51,6 +52,8 @@ window.onload = function() {
       if (cursors.down.isDown) {
         ship.y += 4;
       }
+
+      game.camera.x +=2;
 
 
     }
