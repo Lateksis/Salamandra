@@ -10,8 +10,8 @@ window.onload = function() {
 
     function preload () {
 
-        game.load.image('bg', 'img/space_bg.png');
-        game.load.image('ship', 'img/ship.png');
+        game.load.image('bg', 'salamandra/img/space_bg.png');
+        game.load.image('ship', 'salamandra/img/ship.png');
 
     }
 
