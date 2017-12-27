@@ -12,13 +12,23 @@ window.onload = function() {
 
         game.load.image('bg', 'salamandra/img/space_bg.png');
         game.load.image('ship', 'salamandra/img/ship.png');
+        game.load.tilemap('stage1', 'salamandra/img/stage_1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('tiles', 'salamandra/img/stage1_tileset.png');
 
     }
+
+    var map;
+    var layer;
 
     function create () {
 
         var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
         logo.anchor.setTo(0.5, 0.5);
+
+        map = game.add.tilemap('stage1');
+        map.addTilesetImage('stage1_tileset', 'tiles');
+        layer = map.createLayer('Tile Layer 1');
+
         ship = game.add.sprite(0,0, 'ship');
         cursors = game.input.keyboard.createCursorKeys();
 
