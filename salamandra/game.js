@@ -43,6 +43,7 @@ window.onload = function() {
       }
       if (cursors.right.isDown) {
         ship.x += 4;
+        game.camera.x +=2;
       }
       if (cursors.up.isDown) {
         ship.y -= 4;
@@ -51,7 +52,6 @@ window.onload = function() {
         ship.y += 4;
       }
 
-      game.camera.x +=2;
 
     }
 };
