@@ -18,8 +18,17 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":8,
          "firstgid":1,
-         "source":"stage1_tileset.tsx"
+         "image":"stage1_tileset.png",
+         "imageheight":16,
+         "imagewidth":128,
+         "margin":0,
+         "name":"stage1_tileset",
+         "spacing":0,
+         "tilecount":8,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
