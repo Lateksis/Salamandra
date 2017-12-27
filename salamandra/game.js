@@ -4,16 +4,19 @@ window.onload = function() {
     //  Although it will work fine with this tutorial, it's almost certainly not the most current version.
     //  Be sure to replace it with an updated version before you start experimenting with adding your own code.
 
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update });
     var ship;
     var cursors;
 
     function preload () {
 
-        game.load.image('bg', 'salamandra/img/space_bg.png');
-        game.load.image('ship', 'salamandra/img/ship.png');
-        game.load.tilemap('stage1', 'salamandra/img/stage_1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'salamandra/img/stage1_tileset.png');
+      game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      game.scale.setMinMax(400, 300, 800, 600);
+
+      game.load.image('bg', 'salamandra/img/space_bg.png');
+      game.load.image('ship', 'salamandra/img/ship.png');
+      game.load.tilemap('stage1', 'salamandra/img/stage_1.json', null, Phaser.Tilemap.TILED_JSON);
+      game.load.image('tiles', 'salamandra/img/stage1_tileset.png');
 
     }
 

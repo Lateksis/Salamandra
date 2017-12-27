@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" source="stage1_tileset.tsx"/>
+ <tileset firstgid="1" name="stage1_tileset" tilewidth="16" tileheight="16" tilecount="8" columns="8">
+  <image source="stage1_tileset.png" width="128" height="16"/>
+ </tileset>
  <layer name="Tile Layer 1" width="100" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
