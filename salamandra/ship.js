@@ -50,10 +50,12 @@ class Ship {
       if (this.sprite.x + 32 < this.game.camera.x + this.game.camera.width) {
         this.sprite.body.velocity.x += 80;
       }
+    }
     if (this.cursors.up.isDown) {
       if (this.sprite.y > this.game.camera.y) {
         this.sprite.body.velocity.y -= 80;
       }
+    }
     if (this.cursors.down.isDown) {
       if (this.sprite.y + 16 < this.game.camera.y + this.game.camera.height) {
         this.sprite.body.velocity.y += 80;
