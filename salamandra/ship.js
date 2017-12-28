@@ -4,6 +4,7 @@ class Ship {
   constructor(game) {
     this.game = game;
     this.sprite = null;
+    this.cursors = null;
     var shots = [];
   }
 
@@ -16,22 +17,23 @@ class Ship {
   create() {
     this.sprite = this.game.add.sprite(0,0, 'ship');
     this.game.physics.enable(this.sprite);
+    this.cursors = game.input.keyboard.createCursorKeys();
   }
 
   update() {
     this.sprite.body.velocity.y = 0;
     this.sprite.body.velocity.x = 0;
 
-    if (cursors.left.isDown) {
+    if (this.cursors.left.isDown) {
       this.sprite.body.velocity.x -= 80;
     }
-    if (cursors.right.isDown) {
+    if (this.cursors.right.isDown) {
       this.sprite.body.velocity.x += 80;
     }
-    if (cursors.up.isDown) {
+    if (this.cursors.up.isDown) {
       this.sprite.body.velocity.y -= 80;
     }
-    if (cursors.down.isDown) {
+    if (this.cursors.down.isDown) {
       this.sprite.body.velocity.y += 80;
     }
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACE)) {

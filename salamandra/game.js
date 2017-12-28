@@ -54,8 +54,6 @@ window.onload = function() {
 
       ship.create();
 
-      cursors = game.input.keyboard.createCursorKeys();
-
     }
 
     function update () {
