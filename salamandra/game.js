@@ -72,12 +72,13 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.body.velocity.x += 10; //This is required for collision checks when scrolling moves the sip into an obstacle
+        ship.body.velocity.x += 1; //This is required for collision checks when scrolling moves the ship into an obstacle
         ship.body.x += 10;
+        ship.body.velocity.x -= 1; //This is required for collision checks when scrolling moves the ship into an obstacle
         updateTimer = 0;
       }
       if (check_collision()) {
-        
+
       }
       updateTimer ++; //Update step count
 
