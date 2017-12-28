@@ -122,7 +122,7 @@ window.onload = function() {
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       //Destroy out of bounds bullets
-      bullets.callAllExists(kill_bullets, true, this);
+      bullets.callAllExists(kill_bullet, true, this);
       //Update step count
       updateTimer ++;
 
