@@ -42,22 +42,22 @@ class Ship {
     this.sprite.body.velocity.x = 0;
 
     if (this.cursors.left.isDown) {
-      if (this.sprite.x > this.game.camera.x) {
+      if (this.sprite.x - 2 > this.game.camera.x) {
         this.sprite.body.velocity.x -= 80;
       }
     }
     if (this.cursors.right.isDown) {
-      if (this.sprite.x + 32 < this.game.camera.x + this.game.camera.width) {
+      if (this.sprite.x + 34 < this.game.camera.x + this.game.camera.width) {
         this.sprite.body.velocity.x += 80;
       }
     }
     if (this.cursors.up.isDown) {
-      if (this.sprite.y > this.game.camera.y) {
+      if (this.sprite.y - 2 > this.game.camera.y) {
         this.sprite.body.velocity.y -= 80;
       }
     }
     if (this.cursors.down.isDown) {
-      if (this.sprite.y + 16 < this.game.camera.y + this.game.camera.height) {
+      if (this.sprite.y + 18 < this.game.camera.y + this.game.camera.height) {
         this.sprite.body.velocity.y += 80;
       }
     }
