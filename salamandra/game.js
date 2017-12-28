@@ -69,6 +69,7 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
+        ship.body.velocity.x += 80;
         updateTimer = 0;
       }
       updateTimer ++; //Update step count
