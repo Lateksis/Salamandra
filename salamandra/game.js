@@ -121,6 +121,8 @@ window.onload = function() {
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
+      //Destroy out of bounds bullets
+      bullets.callAllExists(kill_bullets, true, this);
       //Update step count
       updateTimer ++;
 
@@ -147,6 +149,13 @@ window.onload = function() {
   function ship_hit_wall(ship, wall) {
     //Destroy bullet on collision
     ship.kill();
+  }
+
+  function kill_bullet(bullet) {
+    //Destroys bullets that are out of the game screen
+    if (bullet.x - game.camera.x >= game.camera.width) {
+      bullet.kill();
+    }
   }
 
   function shoot() {
