@@ -79,6 +79,8 @@ window.onload = function() {
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       //Create dummy enemy
       enemies.add(game.add.sprite(300, 150, 'dummy'));
+      //Create enemies from object layer of the Tilemap
+      map.createFromObjects('objectgroup', 'Objects','dummy');
 
     }
 

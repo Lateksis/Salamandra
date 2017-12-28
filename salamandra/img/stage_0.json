@@ -10,8 +10,40 @@
          "width":550,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"Objects",
+         "objects":[
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":496,
+                 "y":242
+                }, 
+                {
+                 "height":0,
+                 "id":10,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":593,
+                 "y":239
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.0.3",
