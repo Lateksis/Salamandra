@@ -63,7 +63,7 @@ class Ship {
     if (this.bulletTime >= this.bulletDelay) {
       var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
       this.game.physics.enable(bullet);
-      bullet.body.velocity.x = 800;
+      bullet.body.velocity.x = 400;
       this.shots.push(bullet);
       this.bulletTime = 0;
     }
