@@ -11,6 +11,9 @@ window.onload = function() {
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
 
+    /* DEBUG VARIABLES */
+    var noCollision = false;
+
     function preload () {
 
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -69,7 +72,7 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        //ship.body.velocity.x += 10;
+        ship.body.velocity.x += 10; //This is required for collision checks when scrolling moves the sip into an obstacle
         ship.body.x += 10;
         updateTimer = 0;
       }
@@ -83,4 +86,21 @@ window.onload = function() {
     game.debug.bodyInfo(ship, 32, 32);
 
   }
+
+  function check_collision() {
+    if (!noCollision) {
+      if (ship.body.touching.up || ship.body.touching.down || ship.body.touching.left || ship.body.touching.right) {
+        return true;
+      }
+      return false;
+    }
+    //Checks if the ship has collided with the map
+  }
+
+  /* DEBUG FUNCTIONS */
+
+  function toggle_collision() {
+    noCollision = document.getElementById("collision_box").value;
+  }
+
 };
