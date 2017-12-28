@@ -6,7 +6,6 @@ class Ship {
     this.sprite = null;
     this.cursors = null;
     this.layer = null;
-    this.space = null;
   }
 
   preload() {
@@ -17,7 +16,6 @@ class Ship {
     this.sprite = this.game.add.sprite(0,0, 'ship');
     this.game.physics.enable(this.sprite);
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.layer = layer;
   }
 
@@ -45,9 +43,6 @@ class Ship {
       if (this.sprite.y + 18 < this.game.camera.y + this.game.camera.height) {
         this.sprite.body.velocity.y += 80;
       }
-    }
-    if (this.space.isDown) {
-      this.game.shoot();
     }
   }
 

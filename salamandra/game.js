@@ -27,6 +27,8 @@ window.onload = function() {
     var enemyBullets;
     var enemies;
 
+    var space;
+
 
     function preload () {
       this.game.load.image('bg', 'salamandra/img/space_bg.png');
@@ -71,6 +73,7 @@ window.onload = function() {
       map.setCollisionBetween(0,5);
 
       ship.create(layer);
+      space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     }
 
@@ -84,6 +87,9 @@ window.onload = function() {
         updateTimer = 0;
       }
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
+      if (space.isDown) {
+        shoot();
+      }
       updateTimer ++; //Update step count
 
     }
