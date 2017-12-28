@@ -40,6 +40,7 @@ class Ship {
     }
     if (this.space.isDown) {
       shoot();
+      this.sprite.body.velocity.x += 80;
     }
   }
 
