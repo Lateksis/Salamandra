@@ -61,7 +61,7 @@ window.onload = function() {
         game.camera.x +=2;
         updateTimer = 0;
       }
-      updateTimer ++;
+      updateTimer ++; //Update step count
 
     }
 };
