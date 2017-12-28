@@ -12,8 +12,8 @@ class Ship {
   }
 
   create() {
-    this.sprite = game.add.sprite(0,0, 'ship');
-    this.game.physics.enable(ship);
+    this.sprite = this.game.add.sprite(0,0, 'ship');
+    this.game.physics.enable(this.sprite);
   }
 
 
