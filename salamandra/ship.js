@@ -7,6 +7,8 @@ class Ship {
     this.cursors = null;
     this.space = null;
     this.shots = [];
+    this.bulletTime = 0;
+    this.bulletDelay = 10;
   }
 
   preload() {
@@ -41,13 +43,17 @@ class Ship {
     if (this.space.isDown) {
       this.shoot();
     }
+    bulletTime += 1;
   }
 
   shoot() {
-    var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
-    this.game.physics.enable(bullet);
-    bullet.body.velocity.x = 800;
-    this.shots.push(bullet);
+    if (bulletTime >= bulletDelay) {
+      var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
+      this.game.physics.enable(bullet);
+      bullet.body.velocity.x = 800;
+      this.shots.push(bullet);
+      bulletTime = 0;
+    }
 
   }
 
