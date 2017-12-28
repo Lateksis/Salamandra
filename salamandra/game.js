@@ -88,7 +88,7 @@ window.onload = function() {
       }
 
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
-      game.physics.arcade.overlap(bullets, layer, bullet_hit_wall, null, this);
+      //game.physics.arcade.overlap(bullets, layer, bullet_hit_wall, null, this);
       if (space.isDown) {
         shoot();
       }
