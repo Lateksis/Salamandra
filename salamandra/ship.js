@@ -7,8 +7,8 @@ class Ship {
   }
 
   preload() {
-    game.load.image('bg', 'salamandra/img/space_bg.png');
-    game.load.image('ship', 'salamandra/img/ship.png');
+    this.game.load.image('bg', 'salamandra/img/space_bg.png');
+    this.game.load.image('ship', 'salamandra/img/ship.png');
   }
 
   create() {
