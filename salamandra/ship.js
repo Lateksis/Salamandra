@@ -8,7 +8,7 @@ class Ship {
     this.space = null;
     this.shots = [];
     this.bulletTime = 0;
-    this.bulletDelay = 20;
+    this.bulletDelay = 40;
   }
 
   preload() {
