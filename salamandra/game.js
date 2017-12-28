@@ -40,7 +40,7 @@ window.onload = function() {
       layer = map.createLayer('Tile Layer 1');
 
       game.physics.startSystem(Phaser.Physics.ARCADE);
-      map.setCollisionsBetween(0,5);
+      map.setCollisionBetween(0,5);
 
       ship = game.add.sprite(0,0, 'ship');
 
@@ -51,7 +51,7 @@ window.onload = function() {
 
     function update () {
       game.physics.arcade.collide(ship, layer);
-      
+
       if (cursors.left.isDown) {
         ship.x -= 4;
       }
