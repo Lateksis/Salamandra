@@ -22,7 +22,7 @@ window.onload = function() {
 
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
-    var bulletTime;
+    var bulletTime = 0;
 
     var bullets;
     var enemyBullets;
