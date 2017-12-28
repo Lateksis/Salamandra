@@ -19,7 +19,7 @@ class Ship {
     this.sprite = this.game.add.sprite(0,0, 'ship');
     this.game.physics.enable(this.sprite);
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACE);
+    this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
   update() {
@@ -40,7 +40,6 @@ class Ship {
     }
     if (this.space.isDown) {
       shoot();
-      this.sprite.body.velocity.x += 80;
     }
   }
 
