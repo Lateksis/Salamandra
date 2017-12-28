@@ -56,20 +56,19 @@ window.onload = function() {
       ship.body.velocity.x = 0;
 
       if (cursors.left.isDown) {
-        ship.body.velocity.x -= 40;
+        ship.body.velocity.x -= 80;
       }
       if (cursors.right.isDown) {
-        ship.body.velocity.x += 40;
+        ship.body.velocity.x += 80;
       }
       if (cursors.up.isDown) {
-        ship.body.velocity.y -= 40;
+        ship.body.velocity.y -= 80;
       }
       if (cursors.down.isDown) {
-        ship.body.velocity.y += 40;
+        ship.body.velocity.y += 80;
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.x += 10;
         updateTimer = 0;
       }
       updateTimer ++; //Update step count
@@ -79,7 +78,7 @@ window.onload = function() {
     function render() {
 
     // game.debug.body(p);
-    game.debug.bodyInfo(ship, 32, 320);
+    game.debug.bodyInfo(ship, 32, 32);
 
   }
 };
