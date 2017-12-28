@@ -72,10 +72,8 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
+        ship.body.velocity.x += 5;
         ship.body.x += 10;
-        if (ship.body.overlapX > 0){
-          ship.body.x -= ship.body.overlapX;
-        }
         updateTimer = 0;
       }
       if (check_collision()) {
