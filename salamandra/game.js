@@ -72,9 +72,10 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.body.velocity.x += 1; //This is required for collision checks when scrolling moves the ship into an obstacle
         ship.body.x += 10;
-        ship.body.velocity.x -= 1; //This is required for collision checks when scrolling moves the ship into an obstacle
+        if (ship.body.overlapX > 0){
+          ship.body.x -= ship.body.overlapX;
+        }
         updateTimer = 0;
       }
       if (check_collision()) {
