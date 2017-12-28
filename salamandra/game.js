@@ -86,7 +86,7 @@ window.onload = function() {
           if (object.type == 'ES1') {
             var enemy = game.add.sprite(object.x,object.y, 'dummy');
             //Set an enemy type for this sprite, used when updating enemies
-            enemy.enemyType = 'Follower';
+            enemy.enemyType = 1;
             enemies.add(enemy);
           }
         }
@@ -124,8 +124,8 @@ window.onload = function() {
         shoot();
       }
       //Update enemy movement
-      for (var enemy in enemies) {
-        if (enemy.enemyType == 'Follower') {
+      for (var enemy in enemies.getAll()) {
+        if (enemy.enemyType == 1) {
           enemy.body.velocity.x = -20;
         }
       }
