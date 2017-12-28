@@ -22,6 +22,7 @@ window.onload = function() {
 
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
+    var bulletTime;
 
     var bullets;
     var enemyBullets;
@@ -50,7 +51,7 @@ window.onload = function() {
       bullets = game.add.group();
       bullets.enableBody = true;
       bullets.createMultiple(30, 'bullet');
-      bullets.setAll('lifespan', 1000);
+      bullets.setAll('lifespan', 1500);
 
       //Enemy bullets
       enemyBullets = game.add.group();
@@ -151,12 +152,14 @@ window.onload = function() {
 
 
   function shoot() {
-    bullet = bullets.getFirstExists(false);
-
-    if (bullet) {
-      bullet.reset(ship.x + 32, ship.y + 8);
-      bullet.body.velocity.x = 400;
-      bullet.lifespan = 1000;
+    if (game.time.now > bulletTime) {
+      bullet = bullets.getFirstExists(false);
+      if (bullet) {
+        bullet.reset(ship.x + 32, ship.y + 8);
+        bullet.body.velocity.x = 400;
+        bullet.lifespan = 1500;
+        bulletTime = game.time.now + 200
+      }
     }
   }
 
