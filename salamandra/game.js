@@ -1,3 +1,11 @@
+/* DEBUG VARIABLES */
+var noCollision = false;
+
+  /* DEBUG FUNCTIONS */
+function toggle_collision() {
+  noCollision = document.getElementById("collision_box").value;
+}
+
 window.onload = function() {
 
     //  Note that this html file is set to pull down Phaser 2.5.0 from the JS Delivr CDN.
@@ -11,8 +19,6 @@ window.onload = function() {
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
 
-    /* DEBUG VARIABLES */
-    var noCollision = false;
 
     function preload () {
 
@@ -98,12 +104,6 @@ window.onload = function() {
     }
     return false;
     //Checks if the ship has collided with the map
-  }
-
-  /* DEBUG FUNCTIONS */
-
-  function toggle_collision() {
-    noCollision = document.getElementById("collision_box").value;
   }
 
 };
