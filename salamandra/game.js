@@ -76,6 +76,9 @@ window.onload = function() {
         ship.body.x += 10;
         updateTimer = 0;
       }
+      if (check_collision()) {
+        
+      }
       updateTimer ++; //Update step count
 
     }
@@ -92,8 +95,8 @@ window.onload = function() {
       if (ship.body.touching.up || ship.body.touching.down || ship.body.touching.left || ship.body.touching.right) {
         return true;
       }
-      return false;
     }
+    return false;
     //Checks if the ship has collided with the map
   }
 
