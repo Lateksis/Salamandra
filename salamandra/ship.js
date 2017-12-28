@@ -7,13 +7,11 @@ class Ship {
     this.cursors = null;
     this.layer = null;
     this.space = null;
-    this.shots = [];
     this.bulletTime = 0;
     this.bulletDelay = 30;
   }
 
   preload() {
-    this.game.load.image('bg', 'salamandra/img/space_bg.png');
     this.game.load.image('ship', 'salamandra/img/ship.png');
     this.game.load.image('bullet', 'salamandra/img/shot.png');
   }
@@ -72,7 +70,6 @@ class Ship {
       var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
       this.game.physics.enable(bullet);
       bullet.body.velocity.x = 400;
-      this.shots.push(bullet);
       this.bulletTime = 0;
     }
 

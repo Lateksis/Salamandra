@@ -23,9 +23,13 @@ window.onload = function() {
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
 
+    var bullets;
+    var enemyBullets;
+    var enemies;
+
 
     function preload () {
-
+      this.game.load.image('bg', 'salamandra/img/space_bg.png');
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(480, 320, 960, 640);
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
@@ -36,6 +40,18 @@ window.onload = function() {
 
 
     function create () {
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+      //Create groups for different types of bodies
+      //Bullets shot by player
+      bullets = game.add.group();
+      bullets.enableBody = true();
+
+      //Enemy bullets
+      enemyBullets = game.add.group();
+      enemyBullets.enableBody = true();
+      //Enemies
+      enemies = game.add.group();
+      enemies.enableBody = true();
 
       screenDelay = 20;
       updateTimer = 0;
@@ -48,7 +64,6 @@ window.onload = function() {
       map.addTilesetImage('Design_tileset', 'tiles');
       layer = map.createLayer('Tile Layer 1');
 
-      game.physics.startSystem(Phaser.Physics.ARCADE);
       map.setCollisionBetween(0,5);
 
       ship.create(layer);
@@ -64,9 +79,7 @@ window.onload = function() {
         ship.sprite.body.x += 10;
         updateTimer = 0;
       }
-      if (check_collision()) {
-
-      }
+      game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       updateTimer ++; //Update step count
 
     }
@@ -78,14 +91,15 @@ window.onload = function() {
 
   }
 
-  function check_collision() {
-    if (!noCollision) {
-      if (ship.sprite.body.touching.up || ship.sprite.body.touching.down || ship.sprite.body.touching.left || ship.sprite.body.touching.right) {
-        return true;
-      }
-    }
-    return false;
-    //Checks if the ship has collided with the map
+  function bullet_hit_enemy(bullet, enemy) {
+    //Destroy both enemy and bullet on collision
+    bullet.kill();
+    enemy.kill();
+  }
+
+  function bullet_hit_wall(bullet, wall) {
+    //Destroy bullet on collision
+    bullet.kill();
   }
 
 };
