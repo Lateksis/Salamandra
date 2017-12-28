@@ -7,13 +7,10 @@ class Ship {
     this.cursors = null;
     this.layer = null;
     this.space = null;
-    this.bulletTime = 0;
-    this.bulletDelay = 30;
   }
 
   preload() {
     this.game.load.image('ship', 'salamandra/img/ship.png');
-    this.game.load.image('bullet', 'salamandra/img/shot.png');
   }
 
   create(layer) {
@@ -50,19 +47,8 @@ class Ship {
       }
     }
     if (this.space.isDown) {
-      this.shoot();
+      this.game.shoot();
     }
-    this.bulletTime += 1;
-  }
-
-  shoot() {
-    if (this.bulletTime >= this.bulletDelay) {
-      var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
-      this.game.physics.enable(bullet);
-      bullet.body.velocity.x = 400;
-      this.bulletTime = 0;
-    }
-
   }
 
 

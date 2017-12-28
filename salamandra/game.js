@@ -34,6 +34,7 @@ window.onload = function() {
       game.scale.setMinMax(480, 320, 960, 640);
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
+      game.load.image('bullet', 'salamandra/img/shot.png');
       ship.preload();
     }
 
@@ -45,6 +46,9 @@ window.onload = function() {
       //Bullets shot by player
       bullets = game.add.group();
       bullets.enableBody = true;
+      bullets.createMultiple(30, 'bullet');
+      bullets.setAll('outOfBoundsKill', true);
+      bullets.setAll('checkWorldBounds', true);
 
       //Enemy bullets
       enemyBullets = game.add.group();
@@ -100,6 +104,15 @@ window.onload = function() {
   function bullet_hit_wall(bullet, wall) {
     //Destroy bullet on collision
     bullet.kill();
+  }
+
+  function shoot() {
+    bullet = bullets.getFirstExists(false);
+
+    if (bullet) {
+      bullet.reset(ship.sprite.x + 32, ship.sprite.y + 8);
+      bullet.body.velocity.x = 400;
+    }
   }
 
 };
