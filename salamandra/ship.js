@@ -20,7 +20,7 @@ class Ship {
   }
 
   update() {
-
+    this.game.physics.arcade.collide(this.sprite, this.layer);
     this.sprite.body.velocity.y = 0;
     this.sprite.body.velocity.x = 0;
 
