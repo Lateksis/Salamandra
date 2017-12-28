@@ -14,7 +14,7 @@ window.onload = function() {
     function preload () {
 
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-      game.scale.setMinMax(400, 300, 800, 600);
+      game.scale.setMinMax(480, 320, 960, 640);
 
       game.load.image('bg', 'salamandra/img/space_bg.png');
       game.load.image('ship', 'salamandra/img/ship.png');
@@ -69,7 +69,7 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.body.velocity.x += 10;
+        //ship.body.velocity.x += 10;
         ship.body.x += 10;
         updateTimer = 0;
       }
