@@ -9,7 +9,7 @@ class Ship {
 
   preload() {
     this.game.load.image('bg', 'salamandra/img/space_bg.png');
-    this.game.load.image('ship', 'salamandra/img/this.png');
+    this.game.load.image('ship', 'salamandra/img/ship.png');
     this.game.load.image('bullet', 'salamandra/img/shot.png');
   }
 
