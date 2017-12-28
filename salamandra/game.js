@@ -87,6 +87,7 @@ window.onload = function() {
             var enemy = game.add.sprite(object.x,object.y, 'dummy');
             //Set an enemy type for this sprite, used when updating enemies
             enemy.enemyType = 1;
+            console.log(enemy.enemyType);
             enemies.add(enemy);
           }
         }
@@ -127,7 +128,7 @@ window.onload = function() {
 
       for (var enemy in enemies.getAll()) {
         console.log(enemy.enemyType);
-        if (enemy.enemyType == 1) {  
+        if (enemy.enemyType == 1) {
           enemy.body.velocity.x = -20;
         }
       }
