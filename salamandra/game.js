@@ -8,6 +8,9 @@ window.onload = function() {
     var ship;
     var cursors;
 
+    var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
+    var updateTimer; //Timer for counting how many times the update function has run.
+
     function preload () {
 
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -25,17 +28,19 @@ window.onload = function() {
 
     function create () {
 
+      screenDelay = 10;
+      updateTimer = 0;
       game.world.setBounds(0,0,1200,320);
 
-        var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
-        logo.anchor.setTo(0.5, 0.5);
+      var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
+      logo.anchor.setTo(0.5, 0.5);
 
-        map = game.add.tilemap('stage1');
-        map.addTilesetImage('stage1_better', 'tiles');
-        layer = map.createLayer('Tile Layer 1');
+      map = game.add.tilemap('stage1');
+      map.addTilesetImage('stage1_better', 'tiles');
+      layer = map.createLayer('Tile Layer 1');
 
-        ship = game.add.sprite(0,0, 'ship');
-        cursors = game.input.keyboard.createCursorKeys();
+      ship = game.add.sprite(0,0, 'ship');
+      cursors = game.input.keyboard.createCursorKeys();
 
     }
 
@@ -52,9 +57,11 @@ window.onload = function() {
       if (cursors.down.isDown) {
         ship.y += 4;
       }
-
-      game.camera.x +=2;
-
+      if (updateTimer >= screenDelay) {
+        game.camera.x +=2;
+        updateTimer = 0;
+      }
+      updateTimer ++;
 
     }
 };
