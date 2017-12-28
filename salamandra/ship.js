@@ -42,7 +42,7 @@ class Ship {
     this.sprite.body.velocity.x = 0;
 
     if (this.cursors.left.isDown) {
-      if (this.sprite.x > this.game.camera.x - (this.game.camera.width / 2)) {
+      if (this.sprite.x > this.game.camera.x) {
         this.sprite.body.velocity.x -= 80;
       }
     }
