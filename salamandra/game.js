@@ -124,8 +124,10 @@ window.onload = function() {
         shoot();
       }
       //Update enemy movement
+      console.log('Updating enemy movement');
       for (var enemy in enemies.getAll()) {
         if (enemy.enemyType == 1) {
+          console.log(enemy.enemyType);
           enemy.body.velocity.x = -20;
         }
       }
