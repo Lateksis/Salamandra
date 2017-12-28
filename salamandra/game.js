@@ -38,6 +38,7 @@ window.onload = function() {
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
       game.load.image('bullet', 'salamandra/img/shot.png');
       game.load.image('ship', 'salamandra/img/ship.png');
+      game.load.image('dummy', 'salamandra/img/dummy.png');
     }
 
 
@@ -76,13 +77,16 @@ window.onload = function() {
       game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      //Create dummy enemy
+      enemies.add(game.add.sprite(300, 150, 'dummy'));
 
     }
 
     function update () {
+      //Reset ship velocity
       ship.body.velocity.y = 0;
       ship.body.velocity.x = 0;
-
+      //Controls
       if (cursors.left.isDown) {
         if (ship.x - 2 > game.camera.x) {
           ship.body.velocity.x -= 80;
@@ -103,6 +107,9 @@ window.onload = function() {
           ship.body.velocity.y += 80;
         }
       }
+      if (space.isDown) {
+        shoot();
+      }
       //Scroll screen
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
@@ -110,15 +117,12 @@ window.onload = function() {
         ship.body.x += 10;
         updateTimer = 0;
       }
-
-      if (space.isDown) {
-        shoot();
-      }
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
-      updateTimer ++; //Update step count
+      //Update step count
+      updateTimer ++;
 
     }
 

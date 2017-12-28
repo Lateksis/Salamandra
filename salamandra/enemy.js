@@ -1,14 +1,11 @@
 
 class Enemy {
 
-  constructor(game) {
-    this.game = game;
-    this.sprite = null;
-    this.layer = null;
+  constructor() {
   }
 
   preload() {
-    this.game.load.image('dummy', 'salamandra/img/dummy.png');
+
   }
 
 }
