@@ -52,6 +52,7 @@ window.onload = function() {
       bullets.createMultiple(30, 'bullet');
       bullets.setAll('outOfBoundsKill', true);
       bullets.setAll('checkWorldBounds', true);
+      bullets.setAll('lifespan', 1000);
 
       //Enemy bullets
       enemyBullets = game.add.group();
@@ -122,7 +123,6 @@ window.onload = function() {
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       //Destroy out of bounds bullets
-      bullets.callAllExists(kill_bullet, true, this);
       //Update step count
       updateTimer ++;
 
@@ -151,12 +151,6 @@ window.onload = function() {
     ship.kill();
   }
 
-  function kill_bullet(bullet) {
-    //Destroys bullets that are out of the game screen
-    if (bullet.body.x - game.camera.x >= game.camera.width) {
-      bullet.kill();
-    }
-  }
 
   function shoot() {
     bullet = bullets.getFirstExists(false);
