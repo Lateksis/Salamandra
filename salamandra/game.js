@@ -86,7 +86,7 @@ window.onload = function() {
           if (object.type == 'ES1') {
             var enemy = game.add.sprite(object.x,object.y, 'dummy');
             //Set an enemy type for this sprite, used when updating enemies
-            enemy.enemyType = 'Follower'
+            enemy.enemyType = 'Follower';
             enemies.add(enemy);
           }
         }
