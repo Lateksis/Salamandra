@@ -14,7 +14,7 @@ window.onload = function() {
 
     var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
     game.antialias = false;
-    var ship = new Ship(game);
+    var ship;
     var cursors;
 
     var map;
@@ -37,7 +37,7 @@ window.onload = function() {
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
       game.load.image('bullet', 'salamandra/img/shot.png');
-      ship.preload();
+      game.load.image('ship', 'salamandra/img/ship.png');
     }
 
 
@@ -71,19 +71,45 @@ window.onload = function() {
       layer = map.createLayer('Tile Layer 1');
 
       map.setCollisionBetween(0,5);
-
-      ship.create(layer);
-      space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      //Create Ship
+      ship = game.add.sprite(0,0, 'ship');
+      game.physics.enable(ship);
+      cursors = game.input.keyboard.createCursorKeys();
+      space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     }
 
     function update () {
-      ship.update();
+      // Update ship
+      game.physics.arcade.collide(ship, layer);
+      ship.body.velocity.y = 0;
+      ship.body.velocity.x = 0;
 
+      if (cursors.left.isDown) {
+        if (ship.x - 2 > game.camera.x) {
+          ship.body.velocity.x -= 80;
+        }
+      }
+      if (cursors.right.isDown) {
+        if (ship.x + 34 < game.camera.x + game.camera.width) {
+          ship.body.velocity.x += 80;
+        }
+      }
+      if (cursors.up.isDown) {
+        if (ship.y - 2 > game.camera.y) {
+          ship.body.velocity.y -= 80;
+        }
+      }
+      if (cursors.down.isDown) {
+        if (ship.y + 18 < game.camera.y + game.camera.height) {
+          ship.body.velocity.y += 80;
+        }
+      }
+      //Scroll screen
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.sprite.body.velocity.x += 5;
-        ship.sprite.body.x += 10;
+        ship.body.velocity.x += 5;
+        ship.body.x += 10;
         updateTimer = 0;
       }
 
@@ -99,7 +125,7 @@ window.onload = function() {
     function render() {
 
     // game.debug.body(p);
-    game.debug.bodyInfo(ship.sprite, 32, 32);
+    game.debug.bodyInfo(ship, 32, 32);
 
   }
 
@@ -118,7 +144,7 @@ window.onload = function() {
     bullet = bullets.getFirstExists(false);
 
     if (bullet) {
-      bullet.reset(ship.sprite.x + 32, ship.sprite.y + 8);
+      bullet.reset(ship.x + 32, ship.y + 8);
       bullet.body.velocity.x = 400;
     }
   }
