@@ -60,22 +60,8 @@ window.onload = function() {
 
     function update () {
       game.physics.arcade.collide(ship.sprite, layer);
+      ship.update();
 
-      ship.sprite.body.velocity.y = 0;
-      ship.sprite.body.velocity.x = 0;
-
-      if (cursors.left.isDown) {
-        ship.sprite.body.velocity.x -= 80;
-      }
-      if (cursors.right.isDown) {
-        ship.sprite.body.velocity.x += 80;
-      }
-      if (cursors.up.isDown) {
-        ship.sprite.body.velocity.y -= 80;
-      }
-      if (cursors.down.isDown) {
-        ship.sprite.body.velocity.y += 80;
-      }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
         ship.sprite.body.velocity.x += 5;
