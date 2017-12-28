@@ -5,6 +5,7 @@ class Ship {
     this.game = game;
     this.sprite = null;
     this.cursors = null;
+    this.layer = null;
     this.space = null;
     this.shots = [];
     this.bulletTime = 0;
@@ -17,14 +18,21 @@ class Ship {
     this.game.load.image('bullet', 'salamandra/img/shot.png');
   }
 
-  create() {
+  create(layer) {
     this.sprite = this.game.add.sprite(0,0, 'ship');
     this.game.physics.enable(this.sprite);
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.layer = layer;
   }
 
   update() {
+    this.game.physics.arcade.collide(this.sprite, this.layer);
+
+    for (i = 0; i < this.shots.length; i++) {
+      this.game.physics.arcade.collide(this.shots[i], this.layer);
+    }
+
     this.sprite.body.velocity.y = 0;
     this.sprite.body.velocity.x = 0;
 
@@ -51,7 +59,7 @@ class Ship {
       var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
       this.game.physics.enable(bullet);
       bullet.body.velocity.x = 800;
-      //this.shots.push(bullet);
+      this.shots.push(bullet);
       this.bulletTime = 0;
     }
 

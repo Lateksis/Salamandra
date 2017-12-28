@@ -28,10 +28,9 @@ window.onload = function() {
 
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(480, 320, 960, 640);
-      ship.preload();
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
-
+      ship.preload();
     }
 
 
@@ -52,12 +51,11 @@ window.onload = function() {
       game.physics.startSystem(Phaser.Physics.ARCADE);
       map.setCollisionBetween(0,5);
 
-      ship.create();
+      ship.create(layer);
 
     }
 
     function update () {
-      game.physics.arcade.collide(ship.sprite, layer);
       ship.update();
 
       if (updateTimer >= screenDelay) {
