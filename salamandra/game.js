@@ -50,8 +50,6 @@ window.onload = function() {
       bullets = game.add.group();
       bullets.enableBody = true;
       bullets.createMultiple(30, 'bullet');
-      bullets.setAll('outOfBoundsKill', true);
-      bullets.setAll('checkWorldBounds', true);
       bullets.setAll('lifespan', 1000);
 
       //Enemy bullets
@@ -158,6 +156,7 @@ window.onload = function() {
     if (bullet) {
       bullet.reset(ship.x + 32, ship.y + 8);
       bullet.body.velocity.x = 400;
+      bullet.lifespan = 1000;
     }
   }
 
