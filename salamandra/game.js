@@ -28,7 +28,7 @@ window.onload = function() {
 
     function create () {
 
-      screenDelay = 10;
+      screenDelay = 20;
       updateTimer = 0;
       game.world.setBounds(0,0,1200,320);
 
@@ -58,7 +58,7 @@ window.onload = function() {
         ship.y += 4;
       }
       if (updateTimer >= screenDelay) {
-        game.camera.x +=2;
+        game.camera.x +=5;
         updateTimer = 0;
       }
       updateTimer ++; //Update step count
