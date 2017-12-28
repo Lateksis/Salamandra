@@ -43,16 +43,16 @@ class Ship {
     if (this.space.isDown) {
       this.shoot();
     }
-    bulletTime += 1;
+    this.bulletTime += 1;
   }
 
   shoot() {
-    if (bulletTime >= bulletDelay) {
+    if (this.bulletTime >= this.bulletDelay) {
       var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
       this.game.physics.enable(bullet);
       bullet.body.velocity.x = 800;
       this.shots.push(bullet);
-      bulletTime = 0;
+      this.bulletTime = 0;
     }
 
   }
