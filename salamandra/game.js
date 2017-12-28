@@ -39,12 +39,19 @@ window.onload = function() {
       map.addTilesetImage('Design_tileset', 'tiles');
       layer = map.createLayer('Tile Layer 1');
 
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+      map.setCollisionsBetween(0,5);
+
       ship = game.add.sprite(0,0, 'ship');
+
+      game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
 
     }
 
     function update () {
+      game.physics.arcade.collide(ship, layer);
+      
       if (cursors.left.isDown) {
         ship.x -= 4;
       }
