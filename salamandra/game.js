@@ -69,7 +69,6 @@ window.onload = function() {
 
       map = game.add.tilemap('stage0');
       map.addTilesetImage('Design_tileset', 'tiles');
-      map.createFromObjects('Objects', 10 ,'dummy');
       layer = map.createLayer('Tile Layer 1');
 
       map.setCollisionBetween(0,5);
@@ -81,6 +80,17 @@ window.onload = function() {
       //Create dummy enemy
       enemies.add(game.add.sprite(300, 150, 'dummy'));
       //Create enemies from object layer of the Tilemap
+      // Loop over each object layer
+      for (var ol in map.objects) {
+        //Each object in objectLayer
+        for (var o in map.objects[ol]) {
+          var object = map.objects[ol][o];
+          if (object.type == 'ES1') {
+            enemies.add(game.add.sprite(object.x,object.y, 'dummy'));
+          }
+        }
+      }
+
 
     }
 
