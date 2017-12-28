@@ -17,7 +17,7 @@ class Ship {
   create() {
     this.sprite = this.game.add.sprite(0,0, 'ship');
     this.game.physics.enable(this.sprite);
-    this.cursors = game.input.keyboard.createCursorKeys();
+    this.cursors = this.game.input.keyboard.createCursorKeys();
   }
 
   update() {
