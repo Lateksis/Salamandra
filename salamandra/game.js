@@ -78,7 +78,6 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
-        ship.body.velocity.x += 5;
         ship.body.x += 10;
         updateTimer = 0;
       }
