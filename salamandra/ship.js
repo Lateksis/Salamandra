@@ -25,16 +25,6 @@ class Ship {
   }
 
   update() {
-    this.game.physics.arcade.collide(this.sprite, this.layer);
-
-    for (var i = 0; i < this.shots.length; i++) {
-      this.game.physics.arcade.collide(this.shots[i], this.layer);
-      if (this.shots[i].body.velocity.x == 0 || this.shots[i].body.x - this.sprite.body.x >= 500) {
-        this.shots[i].exists = false;
-        this.shots.splice(i, 1);
-        i -= 1;
-      }
-    }
 
     this.sprite.body.velocity.y = 0;
     this.sprite.body.velocity.x = 0;

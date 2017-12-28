@@ -44,14 +44,14 @@ window.onload = function() {
       //Create groups for different types of bodies
       //Bullets shot by player
       bullets = game.add.group();
-      bullets.enableBody = true();
+      bullets.enableBody = true;
 
       //Enemy bullets
       enemyBullets = game.add.group();
-      enemyBullets.enableBody = true();
+      enemyBullets.enableBody = true;
       //Enemies
       enemies = game.add.group();
-      enemies.enableBody = true();
+      enemies.enableBody = true;
 
       screenDelay = 20;
       updateTimer = 0;
