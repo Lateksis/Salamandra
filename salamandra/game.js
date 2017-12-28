@@ -153,7 +153,7 @@ window.onload = function() {
 
   function kill_bullet(bullet) {
     //Destroys bullets that are out of the game screen
-    if (bullet.x - game.camera.x >= game.camera.width) {
+    if (bullet.body.x - game.camera.x >= game.camera.width) {
       bullet.kill();
     }
   }
