@@ -15,8 +15,8 @@ window.onload = function() {
 
       game.load.image('bg', 'salamandra/img/space_bg.png');
       game.load.image('ship', 'salamandra/img/ship.png');
-      game.load.tilemap('stage1', 'salamandra/img/stage_1.json', null, Phaser.Tilemap.TILED_JSON);
-      game.load.image('tiles', 'salamandra/img/stage1_tileset.png');
+      game.load.tilemap('stage1', 'salamandra/img/stage1_better.json', null, Phaser.Tilemap.TILED_JSON);
+      game.load.image('tiles', 'salamandra/img/stage1_tileset_better.png');
 
     }
 
@@ -31,7 +31,7 @@ window.onload = function() {
         logo.anchor.setTo(0.5, 0.5);
 
         map = game.add.tilemap('stage1');
-        map.addTilesetImage('stage1_tileset', 'tiles');
+        map.addTilesetImage('stage1_better', 'tiles');
         layer = map.createLayer('Tile Layer 1');
 
         ship = game.add.sprite(0,0, 'ship');
