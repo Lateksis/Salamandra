@@ -12,7 +12,8 @@ window.onload = function() {
     //  Although it will work fine with this tutorial, it's almost certainly not the most current version.
     //  Be sure to replace it with an updated version before you start experimenting with adding your own code.
 
-    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', antialias, { preload: preload, create: create, update: update, render: render });
+    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+    game.antialias = false;
     var ship;
     var cursors;
 
