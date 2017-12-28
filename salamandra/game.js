@@ -80,7 +80,7 @@ window.onload = function() {
       //Create dummy enemy
       enemies.add(game.add.sprite(300, 150, 'dummy'));
       //Create enemies from object layer of the Tilemap
-      map.createFromObjects('Objects', 1 ,'dummy');
+      map.createFromObjects('Objects', 10 ,'dummy');
 
     }
 
