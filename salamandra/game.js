@@ -18,7 +18,7 @@ window.onload = function() {
 
       game.load.image('bg', 'salamandra/img/space_bg.png');
       game.load.image('ship', 'salamandra/img/ship.png');
-      game.load.tilemap('stage0', 'salamandra/img/stage0.json', null, Phaser.Tilemap.TILED_JSON);
+      game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
 
     }
