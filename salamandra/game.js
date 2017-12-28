@@ -4,7 +4,7 @@ window.onload = function() {
     //  Although it will work fine with this tutorial, it's almost certainly not the most current version.
     //  Be sure to replace it with an updated version before you start experimenting with adding your own code.
 
-    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
     var ship;
     var cursors;
 
@@ -52,17 +52,20 @@ window.onload = function() {
     function update () {
       game.physics.arcade.collide(ship, layer);
 
+      ship.body.velocity.y = 0;
+      ship.body.velocity.x = 0;
+
       if (cursors.left.isDown) {
-        ship.x -= 4;
+        ship.body.velocity.x -= 40;
       }
       if (cursors.right.isDown) {
-        ship.x += 4;
+        ship.body.velocity.x += 40;
       }
       if (cursors.up.isDown) {
-        ship.y -= 4;
+        ship.body.velocity.y -= 40;
       }
       if (cursors.down.isDown) {
-        ship.y += 4;
+        ship.body.velocity.y += 40;
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
@@ -72,4 +75,11 @@ window.onload = function() {
       updateTimer ++; //Update step count
 
     }
+
+    function render() {
+
+    // game.debug.body(p);
+    game.debug.bodyInfo(ship, 32, 320);
+
+  }
 };
