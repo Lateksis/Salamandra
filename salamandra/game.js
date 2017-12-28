@@ -12,7 +12,7 @@ window.onload = function() {
     //  Although it will work fine with this tutorial, it's almost certainly not the most current version.
     //  Be sure to replace it with an updated version before you start experimenting with adding your own code.
 
-    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+    var game = new Phaser.Game(480, 320, Phaser.AUTO, '', antialias, { preload: preload, create: create, update: update, render: render });
     var ship;
     var cursors;
 
@@ -78,6 +78,7 @@ window.onload = function() {
       }
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
+        ship.body.velocity.x += 5;
         ship.body.x += 10;
         updateTimer = 0;
       }
