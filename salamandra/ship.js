@@ -29,7 +29,7 @@ class Ship {
   update() {
     this.game.physics.arcade.collide(this.sprite, this.layer);
 
-    for (i = 0; i < this.shots.length; i++) {
+    for (var i = 0; i < this.shots.length; i++) {
       this.game.physics.arcade.collide(this.shots[i], this.layer);
     }
 
