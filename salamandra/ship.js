@@ -1,53 +1,52 @@
 //
 class Ship {
 
-  var spaceKey;
-  var game;
-  var cursors;
-
   constructor(game) {
-    game = game;
+    this.game = game;
     this.sprite = null;
-    var shots = [];
+    this.cursors = null;
+    this.space = null;
+    this.shots = [];
   }
 
   preload() {
-    game.load.image('bg', 'salamandra/img/space_bg.png');
-    game.load.image('ship', 'salamandra/img/ship.png');
-    game.load.image('bullet', 'salamandra/img/shot.png');
+    this.game.load.image('bg', 'salamandra/img/space_bg.png');
+    this.game.load.image('ship', 'salamandra/img/ship.png');
+    this.game.load.image('bullet', 'salamandra/img/shot.png');
   }
 
   create() {
-    this.sprite = game.add.sprite(0,0, 'ship');
-    game.physics.enable(this.sprite);
-    cursors = game.input.keyboard.createCursorKeys();
+    this.sprite = this.game.add.sprite(0,0, 'ship');
+    this.game.physics.enable(this.sprite);
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACE);
   }
 
   update() {
     this.sprite.body.velocity.y = 0;
     this.sprite.body.velocity.x = 0;
 
-    if (cursors.left.isDown) {
+    if (this.cursors.left.isDown) {
       this.sprite.body.velocity.x -= 80;
     }
-    if (cursors.right.isDown) {
+    if (this.cursors.right.isDown) {
       this.sprite.body.velocity.x += 80;
     }
-    if (cursors.up.isDown) {
+    if (this.cursors.up.isDown) {
       this.sprite.body.velocity.y -= 80;
     }
-    if (cursors.down.isDown) {
+    if (this.cursors.down.isDown) {
       this.sprite.body.velocity.y += 80;
     }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACE)) {
+    if (this.space.isDown) {
       shoot();
     }
   }
 
   shoot() {
-    var bullet = game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
-    game.physics.enable(bullet);
-    shots.push(bullet);
+    var bullet = this.game.add.sprite(this.sprite.x + 32, this.sprite.y + 8,'bullet');
+    this.game.physics.enable(bullet);
+    this.shots.push(bullet);
 
   }
 
