@@ -77,8 +77,6 @@ window.onload = function() {
       game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-      //Create dummy enemy
-      enemies.add(game.add.sprite(300, 150, 'dummy'));
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
       for (var ol in map.objects) {
@@ -86,7 +84,9 @@ window.onload = function() {
         for (var o in map.objects[ol]) {
           var object = map.objects[ol][o];
           if (object.type == 'ES1') {
-            enemies.add(game.add.sprite(object.x,object.y, 'dummy'));
+            var enemy = game.add.sprite(object.x,object.y, 'dummy');
+            enemy.enemyType = 'Follower'
+            enemies.add(enemy);
           }
         }
       }

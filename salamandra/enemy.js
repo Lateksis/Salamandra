@@ -1,10 +1,11 @@
 
 class Enemy {
 
-  constructor() {
+  move() {
+
   }
 
-  preload() {
+  shoot() {
 
   }
 
