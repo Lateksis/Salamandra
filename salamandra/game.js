@@ -80,8 +80,6 @@ window.onload = function() {
     }
 
     function update () {
-      // Update ship
-      game.physics.arcade.collide(ship, layer);
       ship.body.velocity.y = 0;
       ship.body.velocity.x = 0;
 
@@ -113,11 +111,13 @@ window.onload = function() {
         updateTimer = 0;
       }
 
-      game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
-      game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       if (space.isDown) {
         shoot();
       }
+      // Check for collisions
+      game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
+      game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
+      game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       updateTimer ++; //Update step count
 
     }
@@ -138,6 +138,11 @@ window.onload = function() {
   function bullet_hit_wall(bullet, wall) {
     //Destroy bullet on collision
     bullet.kill();
+  }
+
+  function ship_hit_wall(ship, wall) {
+    //Destroy bullet on collision
+    ship.kill();
   }
 
   function shoot() {
