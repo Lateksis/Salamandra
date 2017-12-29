@@ -124,9 +124,9 @@ window.onload = function() {
       }
       //Update enemy movement
 
-      for (var enemy in enemies) {
+      enemies.forEach(function(enemy) {
         enemy.body.velocity.x = -20;
-      }
+      }, this);
       //Scroll screen
       if (updateTimer >= screenDelay) {
         game.camera.x +=10;
