@@ -124,7 +124,7 @@ window.onload = function() {
       }
       //Update enemy movement
 
-      for (var enemy in enemies.getAll()) {
+      for (var enemy in enemies) {
         enemy.body.velocity.x = -20;
       }
       //Scroll screen
