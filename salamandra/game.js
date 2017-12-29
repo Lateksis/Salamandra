@@ -86,8 +86,6 @@ window.onload = function() {
           if (object.type == 'ES1') {
             var enemy = game.add.sprite(object.x,object.y, 'dummy');
             //Set an enemy type for this sprite, used when updating enemies
-            enemy.enemyType = 1;
-            console.log(enemy.enemyType);
             enemies.add(enemy);
           }
         }
@@ -127,10 +125,7 @@ window.onload = function() {
       //Update enemy movement
 
       for (var enemy in enemies.getAll()) {
-        console.log(enemy.enemyType);
-        if (enemy.enemyType == 1) {
-          enemy.body.velocity.x = -20;
-        }
+        enemy.body.velocity.x = -20;
       }
       //Scroll screen
       if (updateTimer >= screenDelay) {
