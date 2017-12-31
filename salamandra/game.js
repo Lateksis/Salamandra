@@ -56,9 +56,15 @@ window.onload = function() {
       //Enemy bullets
       enemyBullets = game.add.group();
       enemyBullets.enableBody = true;
+      enemyBullets.createMultiple(30, 'bullet');
+      enemyBullets.setAll('lifespan', 4000);
       //Enemies
+      //This group is for basic scouts
       enemies = game.add.group();
       enemies.enableBody = true;
+      //Stationary ships that fire at the player
+      enemies2 = game.add.group();
+      enemies2.enableBody = true;
 
       screenDelay = 2;
       updateTimer = 0;
@@ -77,6 +83,7 @@ window.onload = function() {
       game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
       for (var ol in map.objects) {
@@ -87,6 +94,12 @@ window.onload = function() {
             var enemy = game.add.sprite(object.x,object.y, 'dummy');
             //Set an enemy type for this sprite, used when updating enemies
             enemies.add(enemy);
+          }
+          else if (object.type == 'ES2') {
+            var enemy = game.add.sprite(object.x,object.y, 'dummy');
+            //Set an enemy type for this sprite, used when updating enemies
+            enemy.data = {fireDelay:0};
+            enemies2.add(enemy);
           }
         }
       }
@@ -136,6 +149,11 @@ window.onload = function() {
         }
         enemy.body.velocity.x = -20;
       }, this);
+
+      enemies2.forEach(enemy_shoot(this));
+
+
+
       //Scroll screen
       if (updateTimer >= screenDelay) {
         game.camera.x +=2;
@@ -184,6 +202,18 @@ window.onload = function() {
         bullet.body.velocity.x = 400;
         bullet.lifespan = 1500;
         bulletTime = game.time.now + 200
+      }
+    }
+  }
+
+  function enemy_shoot(enemy) {
+    if (game.time.now > enemy.fireDelay) {
+      bullet = enemyBullets.getFirstExists(false;
+      if (bullet) {
+        bullet.reset(enemy.body.x - 32, enemy.body.y - 32);
+        bullet.body.velocity.x = -100;
+        bullet.lifespan = 4000;
+        enemy.fireDelay = game.time.now + 100;
       }
     }
   }
