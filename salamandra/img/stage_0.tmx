@@ -19,7 +19,7 @@
  </layer>
  <objectgroup name="Objects">
   <object id="9" name="Spawn2" type="ES1" x="496" y="242"/>
-  <object id="11" name="Spawn1" type="ES1" x="560" y="241"/>
+  <object id="11" name="Spawn1" type="ES2" x="560" y="241"/>
   <object id="15" name="Spawn2" type="ES1" x="1036" y="147"/>
   <object id="16" name="Spawn2" type="ES1" x="972" y="146"/>
  </objectgroup>
