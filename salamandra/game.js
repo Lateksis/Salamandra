@@ -140,12 +140,15 @@ window.onload = function() {
 
       enemies.forEach(function(enemy) {
         if (enemy.body.y < ship.body.y) {
+          enemy.frame = 1;
           enemy.body.velocity.y = 40;
         }
         else if (enemy.body.y > ship.body.y) {
+          enemy.frame = 1;
           enemy.body.velocity.y = -40;
         }
         else {
+          enemy.frame = 0;
           enemy.body.velocity.y = 0;
         }
         enemy.body.velocity.x = -20;
