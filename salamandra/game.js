@@ -150,7 +150,17 @@ window.onload = function() {
         enemy.body.velocity.x = -20;
       }, this);
 
-      enemies2.forEach(enemy_shoot(this));
+      enemies2.forEach(function(enemy) {
+          if (game.time.now > enemy.fireDelay) {
+            bullet = enemyBullets.getFirstExists(false);
+            if (bullet) {
+              bullet.reset(enemy.body.x - 32, enemy.body.y - 32);
+              bullet.body.velocity.x = -100;
+              bullet.lifespan = 4000;
+              enemy.fireDelay = game.time.now + 100;
+            }
+          }
+        }, this);
 
 
 
@@ -202,18 +212,6 @@ window.onload = function() {
         bullet.body.velocity.x = 400;
         bullet.lifespan = 1500;
         bulletTime = game.time.now + 200
-      }
-    }
-  }
-
-  function enemy_shoot(enemy) {
-    if (game.time.now > enemy.fireDelay) {
-      bullet = enemyBullets.getFirstExists(false);
-      if (bullet) {
-        bullet.reset(enemy.body.x - 32, enemy.body.y - 32);
-        bullet.body.velocity.x = -100;
-        bullet.lifespan = 4000;
-        enemy.fireDelay = game.time.now + 100;
       }
     }
   }
