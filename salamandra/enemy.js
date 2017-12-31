@@ -1,12 +1,1 @@
 
-class Enemy {
-
-  move() {
-
-  }
-
-  shoot() {
-
-  }
-
-}
