@@ -60,7 +60,7 @@ window.onload = function() {
       enemies = game.add.group();
       enemies.enableBody = true;
 
-      screenDelay = 5;
+      screenDelay = 2;
       updateTimer = 0;
       game.world.setBounds(0,0,11200,320);
 
@@ -130,7 +130,6 @@ window.onload = function() {
       //Scroll screen
       if (updateTimer >= screenDelay) {
         game.camera.x +=2;
-        ship.body.velocity.x += 5;
         ship.body.x += 2;
         updateTimer = 0;
       }
