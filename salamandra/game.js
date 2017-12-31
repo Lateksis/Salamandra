@@ -40,7 +40,7 @@ window.onload = function() {
       game.load.image('bullet', 'salamandra/img/shot.png');
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
-      game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 2);
+      game.load.spritesheet('scout', 'salamandra/img/scout.png', 16, 16, 2);
     }
 
 
