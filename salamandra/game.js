@@ -40,6 +40,7 @@ window.onload = function() {
       game.load.image('bullet', 'salamandra/img/shot.png');
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
+      game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 2);
     }
 
 
@@ -91,7 +92,7 @@ window.onload = function() {
         for (var o in map.objects[ol]) {
           var object = map.objects[ol][o];
           if (object.type == 'ES1') {
-            var enemy = game.add.sprite(object.x,object.y, 'dummy');
+            var enemy = game.add.sprite(object.x,object.y, 'scout');
             //Set an enemy type for this sprite, used when updating enemies
             enemies.add(enemy);
           }
