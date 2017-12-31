@@ -151,13 +151,13 @@ window.onload = function() {
       }, this);
 
       enemies2.forEach(function(enemy) {
-          if (game.time.now > enemy.fireDelay) {
+          if (game.time.now > enemy.data.fireDelay) {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
               bullet.reset(enemy.body.x - 32, enemy.body.y - 32);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
-              enemy.fireDelay = game.time.now + 100;
+              enemy.data.fireDelay = game.time.now + 100;
             }
           }
         }, this);
