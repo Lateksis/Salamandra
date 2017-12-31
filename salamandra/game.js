@@ -208,7 +208,7 @@ window.onload = function() {
 
   function enemy_shoot(enemy) {
     if (game.time.now > enemy.fireDelay) {
-      bullet = enemyBullets.getFirstExists(false;
+      bullet = enemyBullets.getFirstExists(false);
       if (bullet) {
         bullet.reset(enemy.body.x - 32, enemy.body.y - 32);
         bullet.body.velocity.x = -100;
