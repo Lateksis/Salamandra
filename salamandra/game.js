@@ -154,7 +154,7 @@ window.onload = function() {
           if (game.time.now > enemy.data.fireDelay) {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
-              bullet.reset(enemy.body.x + 16, enemy.body.y - 16);
+              bullet.reset(enemy.body.x, enemy.body.y + 16);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
               enemy.data.fireDelay = game.time.now + 100;
