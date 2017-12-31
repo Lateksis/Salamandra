@@ -125,6 +125,13 @@ window.onload = function() {
       //Update enemy movement
 
       enemies.forEach(function(enemy) {
+        enemy.body.velocity.y = 0;
+        if (enemy.body.y < ship.body.y) {
+          enemy.body.velocity.y = 20;
+        }
+        else if (enemy.body.y > ship.body.y) {
+          enemy.body.velocity.y = -20;
+        }
         enemy.body.velocity.x = -20;
       }, this);
       //Scroll screen
