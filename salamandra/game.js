@@ -41,7 +41,7 @@ window.onload = function() {
       game.load.image('bullet', 'salamandra/img/shot.png');
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
-      game.load.spritesheet('scout', 'salamandra/img/scout.png', 16, 16, 2);
+      game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 1);
       game.load.spritesheet('shooter', 'salamandra/img/shooting_enemy.png', 32, 32, 1);
     }
 
@@ -144,15 +144,12 @@ window.onload = function() {
 
       enemies.forEach(function(enemy) {
         if (enemy.body.y < ship.body.y) {
-          enemy.frame = 1;
           enemy.body.velocity.y = 40;
         }
         else if (enemy.body.y > ship.body.y) {
-          enemy.frame = 1;
           enemy.body.velocity.y = -40;
         }
         else {
-          enemy.frame = 0;
           enemy.body.velocity.y = 0;
         }
         enemy.body.velocity.x = -20;
