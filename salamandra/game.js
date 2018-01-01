@@ -180,7 +180,7 @@ window.onload = function() {
               bullet.reset(enemy.body.x, enemy.body.y + 28);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
-              enemy.data.fireDelay = game.time.now + 400;
+              enemy.data.fireDelay = game.time.now + 1000;
             }
           }
         }, this);
