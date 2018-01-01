@@ -33,6 +33,7 @@ window.onload = function() {
 
     function preload () {
       this.game.load.image('bg', 'salamandra/img/space_bg.png');
+      game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.png' )
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(540, 384, 1080, 768);
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
@@ -85,6 +86,8 @@ window.onload = function() {
       game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      //Create HUD getFirstExist
+      hudText = game,add,bitmapText(500, 36, 'font', 'Test text', 32);
 
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
@@ -130,7 +133,7 @@ window.onload = function() {
         }
       }
       if (cursors.down.isDown) {
-        if (ship.y < game.camera.height - 64) {
+        if (ship.y < game.camera.height - 96) {
           ship.body.velocity.y += 80;
         }
       }
@@ -192,6 +195,7 @@ window.onload = function() {
         game.camera.x +=2;
         ship.body.x += 2;
         updateTimer = 0;
+        hudText.x +=2;
       }
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
