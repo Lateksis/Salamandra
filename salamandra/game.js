@@ -87,7 +87,7 @@ window.onload = function() {
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       //Create HUD getFirstExist
-      hudText = game.add.bitmapText(500, 36, 'font', 'Test text', 32);
+      hudText = game.add.bitmapText(10, 350, 'font', 'Test text', 32);
 
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
