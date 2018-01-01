@@ -33,7 +33,7 @@ window.onload = function() {
 
     function preload () {
       this.game.load.image('bg', 'salamandra/img/space_bg.png');
-      game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.png' )
+      game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.fnt' )
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(540, 384, 1080, 768);
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
