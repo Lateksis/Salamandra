@@ -156,6 +156,16 @@ window.onload = function() {
       }, this);
 
       enemies2.forEach(function(enemy) {
+
+        if (enemy.body.y < ship.body.y) {
+          enemy.body.velocity.y = 40;
+        }
+        else if (enemy.body.y > ship.body.y) {
+          enemy.body.velocity.y = -40;
+        }
+        else {
+          enemy.body.velocity.y = 0;
+        }
           if (game.time.now > enemy.data.fireDelay) {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
@@ -167,10 +177,10 @@ window.onload = function() {
             //also fire the second bullet
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
-              bullet.reset(enemy.body.x, enemy.body.y + 30);
+              bullet.reset(enemy.body.x, enemy.body.y + 28);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
-              enemy.data.fireDelay = game.time.now + 100;
+              enemy.data.fireDelay = game.time.now + 400;
             }
           }
         }, this);
