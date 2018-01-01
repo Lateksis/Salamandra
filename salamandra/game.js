@@ -130,7 +130,7 @@ window.onload = function() {
         }
       }
       if (cursors.down.isDown) {
-        if (ship.y + 18 < game.camera.y + game.camera.height) {
+        if (ship.y < game.camera.height - 64) {
           ship.body.velocity.y += 80;
         }
       }
