@@ -41,6 +41,7 @@ window.onload = function() {
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
       game.load.spritesheet('scout', 'salamandra/img/scout.png', 16, 16, 2);
+      game.load.spritesheet('shooter', 'salamandra/img/shooting_enemy.png', 32, 32, 1);
     }
 
 
@@ -97,7 +98,7 @@ window.onload = function() {
             enemies.add(enemy);
           }
           else if (object.type == 'ES2') {
-            var enemy = game.add.sprite(object.x,object.y, 'dummy');
+            var enemy = game.add.sprite(object.x,object.y, 'shooter');
             //Set an enemy type for this sprite, used when updating enemies
             enemy.data = {fireDelay:0};
             enemies2.add(enemy);
