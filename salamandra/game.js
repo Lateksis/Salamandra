@@ -209,9 +209,6 @@ window.onload = function() {
 
     function render() {
 
-    // game.debug.body(p);
-    game.debug.bodyInfo(ship, 32, 32);
-
   }
 
   function bullet_hit_enemy(bullet, enemy) {
