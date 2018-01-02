@@ -188,12 +188,12 @@ window.onload = function() {
 
 
       //Scroll screen
-      /*if (updateTimer >= screenDelay) {
+      if (updateTimer >= screenDelay) {
         game.camera.x +=2;
         ship.body.x += 2;
         updateTimer = 0;
         hudText.x +=2;
-      }*/
+      }
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
