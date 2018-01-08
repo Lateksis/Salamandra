@@ -1,8 +1,16 @@
 + Create sprite for CANNON - DONE
 + Create sprite for enemy Bullets - DONE
 + Create spritesheet animation for ship explosion - DONE
++ Create enemy type CANNON - DONE
 
-7.1.2018
-Create enemy type CANNON
-  - Stationary
-  - Fires projectiles
+7.1.2018 - DONE
+
++ Make enemy bullets collide with ship - DONE
++ Make ship bullets collide with every enemy - DONE
++ Give enemies health: scout 1, purple 2, cannon 5 - DONE
+
+8.1.2018
+
++ Make world restart on ship death
++ Make enemies collide with world
++ Make enemy bullets collide with world

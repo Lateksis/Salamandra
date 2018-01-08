@@ -91,9 +91,8 @@ window.onload = function() {
       map.addTilesetImage('ships', 'ship_tiles');
       map.addTilesetImage('inside_ship', 'inside_ship');
       layer = map.createLayer('Tile Layer 1');
-      layer = map.createLayer('Background');
-
       map.setCollisionBetween(0,20);
+      layer2 = map.createLayer('Background');
       //Create Ship
       ship = game.add.sprite(0,0, 'ship');
       game.physics.enable(ship);
@@ -117,6 +116,7 @@ window.onload = function() {
             let enemy = game.add.sprite(object.x,object.y, 'shooter');
             //Set an enemy type for this sprite, used when updating enemies
             enemy.data = {fireDelay:0};
+            enemy.health = 2;
             enemies2.add(enemy);
           }
           else if (object.type == 'cannon') {
@@ -127,6 +127,8 @@ window.onload = function() {
               enemy.frame = 3;
             }
             //Set an enemy type for this sprite, used when updating enemies
+            enemy.data = {fireDelay:0};
+            enemy.health = 5;
             enemies3.add(enemy);
           }
         }
@@ -166,6 +168,9 @@ window.onload = function() {
       //Update enemy movement
 
       enemies.forEach(function(enemy) {
+        if (!enemy.exists) {
+          return false
+        }
         if (enemy.body.y < ship.body.y) {
           enemy.body.velocity.y = 40;
         }
@@ -179,7 +184,10 @@ window.onload = function() {
       }, this);
 
       enemies2.forEach(function(enemy) {
-
+        if (!enemy.exists) {
+          return false
+        }
+        // Follow player on y axis
         if (enemy.body.y < ship.body.y) {
           enemy.body.velocity.y = 40;
         }
@@ -189,6 +197,14 @@ window.onload = function() {
         else {
           enemy.body.velocity.y = 0;
         }
+        //Keep proper distance on x axis
+        if (enemy.body.x - ship.body.x > 300) {
+          enemy.body.velocity.x = -100;
+        }
+        else if (enemy.body.x - ship.body.x < 250) {
+          enemy.body.velocity.x = 100;
+        }
+        enemy.body.x += 2;
           if (game.time.now > enemy.data.fireDelay) {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
@@ -212,6 +228,26 @@ window.onload = function() {
           }
         }, this);
 
+        enemies3.forEach(function(enemy) {
+          if (!enemy.exists) {
+            return false
+          }
+          let dist_x = enemy.body.x - ship.body.x;
+          let dist_y = enemy.body.y - ship.body.y;
+            if (game.time.now > enemy.data.fireDelay && dist_x <= 300 && dist_x > 10 ) {
+              bullet = enemyBullets.getFirstExists(false);
+              if (bullet) {
+                bullet.reset(enemy.body.x, enemy.body.y + 12);
+                bullet.animations.add('glow');
+                bullet.animations.play('glow', 30, true);
+                bullet.body.velocity.x = -dist_x;
+                bullet.body.velocity.y = -dist_y;
+                bullet.lifespan = 4000;
+                enemy.data.fireDelay = game.time.now + 1000;
+              }
+            }
+          }, this);
+
 
 
       //Scroll screen
@@ -223,7 +259,10 @@ window.onload = function() {
       }
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
+      game.physics.arcade.collide(ship, enemyBullets, ship_hit_wall, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
+      game.physics.arcade.overlap(bullets, enemies2, bullet_hit_enemy, null, this);
+      game.physics.arcade.overlap(bullets, enemies3, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       //Destroy out of bounds bullets
       //Update step count
@@ -238,12 +277,21 @@ window.onload = function() {
   function bullet_hit_enemy(bullet, enemy) {
     //Destroy both enemy and bullet on collision
     bullet.kill();
-    enemy.kill();
+    enemy.health -= 1;
+    if (enemy.health <= 0) {
+      enemy.kill();
+    }
   }
 
   function bullet_hit_wall(bullet, wall) {
     //Destroy bullet on collision
     bullet.kill();
+  }
+
+  function bullet_hit_ship(bullet, ship) {
+    //Destroy bullet and ship on collision
+    bullet.kill();
+    ship.kill();
   }
 
   function ship_hit_wall(ship, wall) {
