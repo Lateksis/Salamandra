@@ -23,6 +23,7 @@ window.onload = function() {
     var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
     var updateTimer; //Timer for counting how many times the update function has run.
     var bulletTime = 0;
+    var score = 0;
 
     var bullets;
     var enemyBullets;
@@ -32,7 +33,7 @@ window.onload = function() {
 
 
     function preload () {
-      this.game.load.image('bg', 'salamandra/img/space_bg.png');
+      this.game.load.image('bg', 'salamandra/img/bg.png');
       game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.fnt' )
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(540, 384, 1080, 768);
@@ -55,19 +56,21 @@ window.onload = function() {
 
 
     function create () {
+      starfield = game.add.tileSprite(0,0,512,512, 'bg');
+      map = game.add.tilemap('stage0');
+      map.addTilesetImage('inside_ship', 'inside_ship');
+      layer2 = map.createLayer('Background');
       game.physics.startSystem(Phaser.Physics.ARCADE);
       //Create groups for different types of bodies
       //Bullets shot by player
       bullets = game.add.group();
       bullets.enableBody = true;
       bullets.createMultiple(30, 'bullet');
-      bullets.setAll('lifespan', 1500);
 
       //Enemy bullets
       enemyBullets = game.add.group();
       enemyBullets.enableBody = true;
       enemyBullets.createMultiple(30, 'enemy_bullet');
-      enemyBullets.setAll('lifespan', 4000);
       //Enemies
       //This group is for basic scouts
       enemies = game.add.group();
@@ -83,23 +86,18 @@ window.onload = function() {
       updateTimer = 0;
       game.world.setBounds(0,0,11200,320);
 
-      var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
-      logo.anchor.setTo(0.5, 0.5);
 
-      map = game.add.tilemap('stage0');
       map.addTilesetImage('Design_tileset', 'tiles');
       map.addTilesetImage('ships', 'ship_tiles');
-      map.addTilesetImage('inside_ship', 'inside_ship');
       layer = map.createLayer('Tile Layer 1');
       map.setCollisionBetween(0,20);
-      layer2 = map.createLayer('Background');
       //Create Ship
-      ship = game.add.sprite(0,0, 'ship');
+      ship = game.add.sprite(20,100, 'ship');
       game.physics.enable(ship);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       //Create HUD getFirstExist
-      hudText = game.add.bitmapText(10, 350, 'font', 'Test text', 32);
+      hudText = game.add.bitmapText(10, 350, 'font', 'Score : 0', 8);
 
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
@@ -107,15 +105,18 @@ window.onload = function() {
         //Each object in objectLayer
         for (var o in map.objects[ol]) {
           var object = map.objects[ol][o];
-          if (object.type == 'ES1') {
+          if (object.type == 'scout') {
             let enemy = game.add.sprite(object.x,object.y, 'scout');
+            game.physics.enable(enemy);
             //Set an enemy type for this sprite, used when updating enemies
+            enemy.data = {fireDelay:0, max_health:1, spawn_x:object.x, spawn_y:object.y};
             enemies.add(enemy);
           }
-          else if (object.type == 'ES2') {
+          else if (object.type == 'shooter') {
             let enemy = game.add.sprite(object.x,object.y, 'shooter');
+            game.physics.enable(enemy);
             //Set an enemy type for this sprite, used when updating enemies
-            enemy.data = {fireDelay:0};
+            enemy.data = {fireDelay:0, max_health:2, spawn_x:object.x, spawn_y:object.y};
             enemy.health = 2;
             enemies2.add(enemy);
           }
@@ -127,7 +128,7 @@ window.onload = function() {
               enemy.frame = 3;
             }
             //Set an enemy type for this sprite, used when updating enemies
-            enemy.data = {fireDelay:0};
+            enemy.data = {fireDelay:0, max_health:5, spawn_x:object.x, spawn_y:object.y - 32};
             enemy.health = 5;
             enemies3.add(enemy);
           }
@@ -138,6 +139,8 @@ window.onload = function() {
     }
 
     function update () {
+
+
       if (!ship.exists) {
         return false;
       }
@@ -161,7 +164,7 @@ window.onload = function() {
         }
       }
       if (cursors.down.isDown) {
-        if (ship.y < game.camera.height - 96) {
+        if (ship.y < game.camera.height - 64) {
           ship.body.velocity.y += 80;
         }
       }
@@ -171,14 +174,14 @@ window.onload = function() {
       //Update enemy movement
 
       enemies.forEach(function(enemy) {
-        if (!enemy.exists) {
+        if (!enemy.exists || !enemy.inCamera) {
           return false
         }
-        if (enemy.body.y < ship.body.y) {
-          enemy.body.velocity.y = 40;
+        if (ship.body.y - enemy.body.y > 10 ) {
+          enemy.body.velocity.y = 60;
         }
-        else if (enemy.body.y > ship.body.y) {
-          enemy.body.velocity.y = -40;
+        else if (enemy.body.y - ship.body.y > 10) {
+          enemy.body.velocity.y = -60;
         }
         else {
           enemy.body.velocity.y = 0;
@@ -187,21 +190,24 @@ window.onload = function() {
       }, this);
 
       enemies2.forEach(function(enemy) {
-        if (!enemy.exists) {
+        if (!enemy.exists || !enemy.inCamera) {
           return false
         }
         // Follow player on y axis
-        if (enemy.body.y < ship.body.y) {
-          enemy.body.velocity.y = 40;
+        if (ship.body.y - enemy.body.y > 10 ) {
+          enemy.body.velocity.y = 100;
         }
-        else if (enemy.body.y > ship.body.y) {
-          enemy.body.velocity.y = -40;
+        else if (enemy.body.y - ship.body.y > 10) {
+          enemy.body.velocity.y = -100;
         }
         else {
           enemy.body.velocity.y = 0;
         }
         //Keep proper distance on x axis
-        if (enemy.body.x - ship.body.x > 300) {
+        if (enemy.body.x >= (game.camera.x + game.camera.width - 32)) {
+          enemy.body.velocity.x = -100;
+        }
+        else if (enemy.body.x - ship.body.x > 300) {
           enemy.body.velocity.x = -100;
         }
         else if (enemy.body.x - ship.body.x < 250) {
@@ -232,7 +238,7 @@ window.onload = function() {
         }, this);
 
         enemies3.forEach(function(enemy) {
-          if (!enemy.exists) {
+          if (!enemy.exists || !enemy.inCamera) {
             return false
           }
           let dist_x = enemy.body.x - ship.body.x;
@@ -259,17 +265,32 @@ window.onload = function() {
         ship.body.x += 2;
         updateTimer = 0;
         hudText.x +=2;
+        starfield.x += 2;
+        starfield.tilePosition.x -= 1;
       }
+      //scroll bg
+
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
-      game.physics.arcade.collide(ship, enemyBullets, ship_hit_wall, null, this);
+      game.physics.arcade.collide(enemies, layer);
+      game.physics.arcade.collide(enemies2, layer);
+      game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
       game.physics.arcade.overlap(bullets, enemies2, bullet_hit_enemy, null, this);
       game.physics.arcade.overlap(bullets, enemies3, bullet_hit_enemy, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
+      game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
       //Destroy out of bounds bullets
       //Update step count
       updateTimer ++;
+
+      //Kill bullets outside screen to preven offscreen kills
+      bullets.forEachAlive(function(bullet) {
+        if (bullet.x > game.camera.x + game.camera.width) {
+          bullet.kill();
+
+        }
+      }, this);
 
     }
 
@@ -282,7 +303,9 @@ window.onload = function() {
     bullet.kill();
     enemy.health -= 1;
     if (enemy.health <= 0) {
+      score += enemy.data.max_health * 100;
       enemy.kill();
+      hudText.setText('Score : ' + score);
     }
   }
 
@@ -293,16 +316,22 @@ window.onload = function() {
 
   function bullet_hit_ship(bullet, ship) {
     //Destroy bullet and ship on collision
+    var explosion = game.add.sprite(ship.x - 32, ship.y - 8,'ship_explode');
+    explosion.animations.add('explode')
+    explosion.animations.play('explode', 60, false, true);
     bullet.kill();
     ship.kill();
+    game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
+    //Wait for one second before resetting game
   }
 
   function ship_hit_wall(ship, wall) {
-    //Destroy bullet on collision
-    var explosion = game.add.sprite(ship.body.x, ship.body.y,'ship_explode');
+    //Destroy ship on collision
+    var explosion = game.add.sprite(ship.x - 32, ship.y - 8,'ship_explode');
     explosion.animations.add('explode')
     explosion.animations.play('explode', 60, false, true);
     ship.kill();
+    game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
   }
 
 
@@ -312,10 +341,35 @@ window.onload = function() {
       if (bullet) {
         bullet.reset(ship.x + 32, ship.y + 8);
         bullet.body.velocity.x = 400;
-        bullet.lifespan = 1500;
-        bulletTime = game.time.now + 200
+        bulletTime = game.time.now + 400
       }
     }
+  }
+
+  function reset_game() {
+    //If ship has been destroyed, reset everything
+    //Reset enemies on their spawn positions
+    enemies.forEach(function(enemy) {
+      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
+      enemy.health = enemy.data.max_health;
+    }, this);
+    enemies2.forEach(function(enemy) {
+      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
+      enemy.health = enemy.data.max_health;
+    }, this);
+    enemies3.forEach(function(enemy) {
+      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
+      enemy.health = enemy.data.max_health;
+    }, this);
+    enemyBullets.forEach(function(bullet) {
+      bullet.kill();
+    }, this);
+    game.camera.reset();
+    ship.reset(20,100);
+    hudText.reset(10, 350);
+    score = 0;
+    hudText.setText('Score : ' + score);
+    starfield.reset();
   }
 
 };

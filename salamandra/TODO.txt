@@ -8,9 +8,8 @@
 + Make enemy bullets collide with ship - DONE
 + Make ship bullets collide with every enemy - DONE
 + Give enemies health: scout 1, purple 2, cannon 5 - DONE
++ Make world stop & restart on ship death - DONE
++ Make enemies collide with world - DONE
++ Make enemy bullets collide with world - DONE
 
 8.1.2018
-
-+ Make world restart on ship death
-+ Make enemies collide with world
-+ Make enemy bullets collide with world
