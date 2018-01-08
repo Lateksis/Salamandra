@@ -138,6 +138,9 @@ window.onload = function() {
     }
 
     function update () {
+      if (!ship.exists) {
+        return false;
+      }
       //Reset ship velocity
       ship.body.velocity.y = 0;
       ship.body.velocity.x = 0;
