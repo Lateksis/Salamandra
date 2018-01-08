@@ -6,3 +6,12 @@ class Enemy extends Phaser.Sprite {
     this.game.physics.enable(this);
   }
 }
+
+
+
+class Scout extends Enemy {
+  constructor(game) {
+    super(game);
+    
+  }
+}

@@ -1,0 +1,8 @@
++ Create sprite for CANNON - DONE
++ Create sprite for enemy Bullets - DONE
++ Create spritesheet animation for ship explosion - DONE
+
+7.1.2018
+Create enemy type CANNON
+  - Stationary
+  - Fires projectiles

@@ -36,13 +36,20 @@ window.onload = function() {
       game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.fnt' )
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       game.scale.setMinMax(540, 384, 1080, 768);
+      game.renderer.renderSession.roundPixels = true;
+      Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
       game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
       game.load.image('tiles', 'salamandra/img/Design_tileset.png');
+      game.load.image('ship_tiles', 'salamandra/img/ships.png');
+      game.load.image('inside_ship', 'salamandra/img/inside_ship.png');
       game.load.image('bullet', 'salamandra/img/shot.png');
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
       game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 1);
       game.load.spritesheet('shooter', 'salamandra/img/shooting_enemy.png', 32, 32, 1);
+      game.load.spritesheet('cannon', 'salamandra/img/cannon.png', 32, 32);
+      game.load.spritesheet('enemy_bullet', 'salamandra/img/enemy_bullet.png', 6, 6, 4);
+      game.load.spritesheet('ship_explode', 'salamandra/img/ship_explode.png', 32, 16);
     }
 
 
@@ -59,7 +66,7 @@ window.onload = function() {
       //Enemy bullets
       enemyBullets = game.add.group();
       enemyBullets.enableBody = true;
-      enemyBullets.createMultiple(30, 'bullet');
+      enemyBullets.createMultiple(30, 'enemy_bullet');
       enemyBullets.setAll('lifespan', 4000);
       //Enemies
       //This group is for basic scouts
@@ -68,6 +75,9 @@ window.onload = function() {
       //Stationary ships that fire at the player
       enemies2 = game.add.group();
       enemies2.enableBody = true;
+      //Cannons mounted on ships
+      enemies3 = game.add.group();
+      enemies3.enableBody = true;
 
       screenDelay = 2;
       updateTimer = 0;
@@ -78,9 +88,12 @@ window.onload = function() {
 
       map = game.add.tilemap('stage0');
       map.addTilesetImage('Design_tileset', 'tiles');
+      map.addTilesetImage('ships', 'ship_tiles');
+      map.addTilesetImage('inside_ship', 'inside_ship');
       layer = map.createLayer('Tile Layer 1');
+      layer = map.createLayer('Background');
 
-      map.setCollisionBetween(0,5);
+      map.setCollisionBetween(0,20);
       //Create Ship
       ship = game.add.sprite(0,0, 'ship');
       game.physics.enable(ship);
@@ -96,15 +109,25 @@ window.onload = function() {
         for (var o in map.objects[ol]) {
           var object = map.objects[ol][o];
           if (object.type == 'ES1') {
-            var enemy = game.add.sprite(object.x,object.y, 'scout');
+            let enemy = game.add.sprite(object.x,object.y, 'scout');
             //Set an enemy type for this sprite, used when updating enemies
             enemies.add(enemy);
           }
           else if (object.type == 'ES2') {
-            var enemy = game.add.sprite(object.x,object.y, 'shooter');
+            let enemy = game.add.sprite(object.x,object.y, 'shooter');
             //Set an enemy type for this sprite, used when updating enemies
             enemy.data = {fireDelay:0};
             enemies2.add(enemy);
+          }
+          else if (object.type == 'cannon') {
+            let enemy = game.add.sprite(object.x,object.y - 32, 'cannon');
+            //Check cannon orientation
+            let ori = object.properties.orientation
+            if (ori == 'left') {
+              enemy.frame = 3;
+            }
+            //Set an enemy type for this sprite, used when updating enemies
+            enemies3.add(enemy);
           }
         }
       }
@@ -170,6 +193,8 @@ window.onload = function() {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
               bullet.reset(enemy.body.x, enemy.body.y + 2);
+              bullet.animations.add('glow');
+              bullet.animations.play('glow', 30, true);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
               //enemy.data.fireDelay = game.time.now + 100;
@@ -178,6 +203,8 @@ window.onload = function() {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
               bullet.reset(enemy.body.x, enemy.body.y + 28);
+              bullet.animations.add('glow');
+              bullet.animations.play('glow', 30, true);
               bullet.body.velocity.x = -100;
               bullet.lifespan = 4000;
               enemy.data.fireDelay = game.time.now + 1000;
@@ -221,6 +248,9 @@ window.onload = function() {
 
   function ship_hit_wall(ship, wall) {
     //Destroy bullet on collision
+    var explosion = game.add.sprite(ship.body.x, ship.body.y,'ship_explode');
+    explosion.animations.add('explode')
+    explosion.animations.play('explode', 60, false, true);
     ship.kill();
   }
 
