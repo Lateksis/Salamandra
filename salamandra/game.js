@@ -20,7 +20,8 @@ window.onload = function() {
     var map;
     var layer;
 
-    var screenDelay; //The delay of screen scroll. Bigger values make scroll slower.
+    var screenDelay = 2; //The delay of screen scroll. Bigger values make scroll slower.
+    var step = 2; //The step size for scrolling the screen
     var updateTimer; //Timer for counting how many times the update function has run.
     var bulletTime = 0;
     var score = 0;
@@ -60,6 +61,7 @@ window.onload = function() {
       map = game.add.tilemap('stage0');
       map.addTilesetImage('inside_ship', 'inside_ship');
       layer2 = map.createLayer('Background');
+      layer2.smoothed = false;
       game.physics.startSystem(Phaser.Physics.ARCADE);
       //Create groups for different types of bodies
       //Bullets shot by player
@@ -82,7 +84,6 @@ window.onload = function() {
       enemies3 = game.add.group();
       enemies3.enableBody = true;
 
-      screenDelay = 2;
       updateTimer = 0;
       game.world.setBounds(0,0,11200,320);
 
@@ -219,8 +220,9 @@ window.onload = function() {
         else {
           enemy.body.velocity.y = 0;
         }
-        enemy.body.velocity.x = -20;
+        enemy.body.velocity.x = -80;
       }, this);
+
 
       enemies2.forEach(function(enemy) {
         if (!enemy.exists || !enemy.inCamera) {
@@ -246,7 +248,6 @@ window.onload = function() {
         else if (enemy.body.x - ship.body.x < 250) {
           enemy.body.velocity.x = 100;
         }
-        //enemy.body.x += 2;
           if (game.time.now > enemy.data.fireDelay) {
             bullet = enemyBullets.getFirstExists(false);
             if (bullet) {
@@ -294,12 +295,25 @@ window.onload = function() {
 
       //Scroll screen
       if (updateTimer >= screenDelay) {
-        game.camera.x +=2;
-        ship.body.x += 2;
+        game.camera.x += step;
+        ship.body.x += step;
         updateTimer = 0;
-        hudText.x +=2;
-        starfield.x += 2;
+        hudText.x += step;
+        starfield.x += step;
         starfield.tilePosition.x -= 1;
+        enemies.forEach(function(enemy) {
+          if (!enemy.exists || !enemy.inCamera) {
+            return false
+          }
+          enemy.x += step;
+          }, this);
+          enemies2.forEach(function(enemy) {
+            if (!enemy.exists || !enemy.inCamera) {
+              return false
+            }
+            enemy.x += step;
+            }, this);
+
       }
       //scroll bg
 
@@ -312,7 +326,7 @@ window.onload = function() {
       bullets.forEachAlive(function(bullet) {
         if (bullet.x > game.camera.x + game.camera.width) {
           bullet.kill();
-
+          map.layers[0].x -= 20;
         }
       }, this);
 
