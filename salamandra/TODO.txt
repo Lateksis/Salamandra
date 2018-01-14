@@ -13,3 +13,23 @@
 + Make enemy bullets collide with world - DONE
 
 8.1.2018
+
++ Create spritesheet for enemy ship explosion - DONE
++ Create sprite for powerup - DONE
++ Make ship pick up powerups - DONE
++ Create powerup scroll with following powerups: - DONE
+  - Speed
+  - Fire rate
+  - Damage
+  - Option
+  - Shield
+
+10.1.2018
+
+14.1.2018
++ Make text area for powerup scroll
++ Make shield absorb enemy bullets and break
++ Give upper limit to powerups
++ Make fire rate work
++ Make damage work
++ Make option work

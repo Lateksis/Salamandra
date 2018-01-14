@@ -14,8 +14,16 @@ window.onload = function() {
 
     var game = new Phaser.Game(540, 384, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
     game.antialias = false;
-    var ship;
-    var cursors;
+    game.global = {
+      ship : null,
+      enemyBullets : null,
+      bullets : null,
+      cursors : null,
+      space : null,
+      m_key : null,
+      weaponWheel : null,
+      weaponText : null
+    }
 
     var map;
     var layer;
@@ -23,14 +31,9 @@ window.onload = function() {
     var screenDelay = 2; //The delay of screen scroll. Bigger values make scroll slower.
     var step = 2; //The step size for scrolling the screen
     var updateTimer; //Timer for counting how many times the update function has run.
-    var bulletTime = 0;
     var score = 0;
-
-    var bullets;
-    var enemyBullets;
     var enemies;
-
-    var space;
+    var weaponTag;
 
 
     function preload () {
@@ -52,6 +55,11 @@ window.onload = function() {
       game.load.spritesheet('cannon', 'salamandra/img/cannon.png', 32, 32);
       game.load.spritesheet('enemy_bullet', 'salamandra/img/enemy_bullet.png', 6, 6, 4);
       game.load.spritesheet('ship_explode', 'salamandra/img/ship_explode.png', 32, 16);
+      game.load.spritesheet('enemy_explode', 'salamandra/img/enemy_explode.png', 32, 32);
+      game.load.spritesheet('powerup', 'salamandra/img/powerup.png', 32, 32);
+      game.load.spritesheet('weapon_selector', 'salamandra/img/weapon_selector.png', 20, 10);
+      game.load.image('weapon_tag', 'salamandra/img/weapon_tag.png');
+      game.load.spritesheet('shield', 'salamandra/img/shield.png', 36, 20, 7);
     }
 
 
@@ -69,20 +77,22 @@ window.onload = function() {
       bullets.enableBody = true;
       bullets.createMultiple(30, 'bullet');
 
+      //Explosions
+      explosions = game.add.group();
+      explosions.createMultiple(20, 'enemy_explode');
+
+      //Powerups
+      powerups = game.add.group();
+      powerups.enableBody = true;
+      powerups.createMultiple(20, 'powerup');
+
       //Enemy bullets
       enemyBullets = game.add.group();
       enemyBullets.enableBody = true;
       enemyBullets.createMultiple(30, 'enemy_bullet');
       //Enemies
-      //This group is for basic scouts
       enemies = game.add.group();
       enemies.enableBody = true;
-      //Stationary ships that fire at the player
-      enemies2 = game.add.group();
-      enemies2.enableBody = true;
-      //Cannons mounted on ships
-      enemies3 = game.add.group();
-      enemies3.enableBody = true;
 
       updateTimer = 0;
       game.world.setBounds(0,0,11200,320);
@@ -93,10 +103,14 @@ window.onload = function() {
       layer = map.createLayer('Tile Layer 1');
       map.setCollisionBetween(0,20);
       //Create Ship
-      ship = game.add.sprite(20,100, 'ship');
+      //ship = game.add.sprite(20,100, 'ship');
+      ship = new Ship(game);
       game.physics.enable(ship);
+      game.add.existing(ship);
+      game.add.existing(ship.shieldSprite);
       cursors = game.input.keyboard.createCursorKeys();
       space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      m_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
       this.game.input.keyboard.addKey(Phaser.Keyboard.P).onDown.add(function () {
         if (!game.paused) {
           pauseText.x = game.camera.x + 220;
@@ -108,10 +122,21 @@ window.onload = function() {
           game.paused = false;
         }
       }, this);
-      //Create HUD getFirstExist
+      //Create HUD
       hudText = game.add.bitmapText(10, 350, 'font', 'Score : 0', 8);
       pauseText = game.add.bitmapText(270,150 , 'font', 'PAUSED', 16);
       pauseText.visible = false;
+
+      weaponWheel = game.add.group();
+      weaponWheel.createMultiple(5, 'weapon_selector', 0, true);
+      weaponWheel.getChildAt(0).reset(20, 330);
+      for (i = 1; i < 5; i++){
+        weaponWheel.getChildAt(i).alignTo(weaponWheel.getChildAt(i-1), Phaser.RIGHT_TOP, 5);
+      }
+      weaponTag = game.add.sprite(125, 345, 'weapon_tag');
+      weaponText = game.add.bitmapText(160, 348, 'font', ' ', 14);
+      weaponText.tint = 0x000001;
+
 
       //Create enemies from object layer of the Tilemap
       // Loop over each object layer
@@ -120,31 +145,19 @@ window.onload = function() {
         for (var o in map.objects[ol]) {
           var object = map.objects[ol][o];
           if (object.type == 'scout') {
-            let enemy = game.add.sprite(object.x,object.y, 'scout');
+            let enemy = new Scout(game,object.x,object.y);
             game.physics.enable(enemy);
-            //Set an enemy type for this sprite, used when updating enemies
-            enemy.data = {fireDelay:0, max_health:1, spawn_x:object.x, spawn_y:object.y};
             enemies.add(enemy);
           }
           else if (object.type == 'shooter') {
-            let enemy = game.add.sprite(object.x,object.y, 'shooter');
+            let enemy = new Shooter(game,object.x,object.y);
             game.physics.enable(enemy);
-            //Set an enemy type for this sprite, used when updating enemies
-            enemy.data = {fireDelay:0, max_health:5, spawn_x:object.x, spawn_y:object.y};
-            enemy.health = 5;
-            enemies2.add(enemy);
+            enemies.add(enemy);
           }
           else if (object.type == 'cannon') {
-            let enemy = game.add.sprite(object.x,object.y - 32, 'cannon');
-            //Check cannon orientation
-            let ori = object.properties.orientation
-            if (ori == 'left') {
-              enemy.frame = 3;
-            }
-            //Set an enemy type for this sprite, used when updating enemies
-            enemy.data = {fireDelay:0, max_health:5, spawn_x:object.x, spawn_y:object.y - 32};
-            enemy.health = 5;
-            enemies3.add(enemy);
+            let enemy = new Cannon(game,object.x,object.y, object.properties.orientation);
+            game.physics.enable(enemy);
+            enemies.add(enemy);
             enemy.body.immovable = true;
           }
         }
@@ -160,136 +173,13 @@ window.onload = function() {
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
       game.physics.arcade.collide(enemies, layer);
-      game.physics.arcade.collide(enemies2, enemies);
       game.physics.arcade.collide(enemies, enemies);
-      game.physics.arcade.collide(enemies2, enemies2);
-      game.physics.arcade.collide(enemies3, enemies);
-      game.physics.arcade.collide(enemies3, enemies2);
-      game.physics.arcade.collide(enemies2, layer);
       game.physics.arcade.collide(ship, enemies, bullet_hit_ship, null, this);
-      game.physics.arcade.collide(ship, enemies2, bullet_hit_ship, null, this);
-      game.physics.arcade.collide(ship, enemies3, bullet_hit_ship, null, this);
       game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
       game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
-      game.physics.arcade.overlap(bullets, enemies2, bullet_hit_enemy, null, this);
-      game.physics.arcade.overlap(bullets, enemies3, bullet_hit_enemy, null, this);
+      game.physics.arcade.overlap(ship, powerups, pickup_powerup, null, this);
       game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
       game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
-
-
-
-      //Reset ship velocity
-      ship.body.velocity.y = 0;
-      ship.body.velocity.x = 0;
-      //Controls
-      if (cursors.left.isDown) {
-        if (ship.x - 2 > game.camera.x) {
-          ship.body.velocity.x -= 80;
-        }
-      }
-      if (cursors.right.isDown) {
-        if (ship.x + 34 < game.camera.x + game.camera.width) {
-          ship.body.velocity.x += 80;
-        }
-      }
-      if (cursors.up.isDown) {
-        if (ship.y - 2 > game.camera.y) {
-          ship.body.velocity.y -= 80;
-        }
-      }
-      if (cursors.down.isDown) {
-        if (ship.y < game.camera.height - 64) {
-          ship.body.velocity.y += 80;
-        }
-      }
-      if (space.isDown) {
-        shoot();
-      }
-      //Update enemy movement
-
-      enemies.forEach(function(enemy) {
-        if (!enemy.exists || !enemy.inCamera) {
-          return false
-        }
-        if (ship.body.y - enemy.body.y > 10 ) {
-          enemy.body.velocity.y = 60;
-        }
-        else if (enemy.body.y - ship.body.y > 10) {
-          enemy.body.velocity.y = -60;
-        }
-        else {
-          enemy.body.velocity.y = 0;
-        }
-        enemy.body.velocity.x = -80;
-      }, this);
-
-
-      enemies2.forEach(function(enemy) {
-        if (!enemy.exists || !enemy.inCamera) {
-          return false
-        }
-        // Follow player on y axis
-        if (ship.body.y - enemy.body.y > 10 ) {
-          enemy.body.velocity.y = 100;
-        }
-        else if (enemy.body.y - ship.body.y > 10) {
-          enemy.body.velocity.y = -100;
-        }
-        else {
-          enemy.body.velocity.y = 0;
-        }
-        //Keep proper distance on x axis
-        if (enemy.body.x >= (game.camera.x + game.camera.width - 32)) {
-          enemy.body.velocity.x = -100;
-        }
-        else if (enemy.body.x - ship.body.x > 300) {
-          enemy.body.velocity.x = -100;
-        }
-        else if (enemy.body.x - ship.body.x < 250) {
-          enemy.body.velocity.x = 100;
-        }
-          if (game.time.now > enemy.data.fireDelay) {
-            bullet = enemyBullets.getFirstExists(false);
-            if (bullet) {
-              bullet.reset(enemy.body.x, enemy.body.y + 2);
-              bullet.animations.add('glow');
-              bullet.animations.play('glow', 10, true);
-              bullet.body.velocity.x = -100;
-              bullet.lifespan = 4000;
-              //enemy.data.fireDelay = game.time.now + 100;
-            }
-            //also fire the second bullet
-            bullet = enemyBullets.getFirstExists(false);
-            if (bullet) {
-              bullet.reset(enemy.body.x, enemy.body.y + 28);
-              bullet.animations.add('glow');
-              bullet.animations.play('glow', 10, true);
-              bullet.body.velocity.x = -100;
-              bullet.lifespan = 4000;
-              enemy.data.fireDelay = game.time.now + 1000;
-            }
-          }
-        }, this);
-
-        enemies3.forEach(function(enemy) {
-          if (!enemy.exists || !enemy.inCamera) {
-            return false
-          }
-          let dist_x = enemy.body.x - ship.body.x;
-          let dist_y = enemy.body.y - ship.body.y;
-            if (game.time.now > enemy.data.fireDelay && dist_x <= 300 && dist_x > 10 ) {
-              bullet = enemyBullets.getFirstExists(false);
-              if (bullet) {
-                bullet.reset(enemy.body.x, enemy.body.y + 12);
-                bullet.animations.add('glow');
-                bullet.animations.play('glow', 10, true);
-                bullet.body.velocity.x = -dist_x;
-                bullet.body.velocity.y = -dist_y;
-                bullet.lifespan = 4000;
-                enemy.data.fireDelay = game.time.now + 1000;
-              }
-            }
-          }, this);
 
 
 
@@ -297,29 +187,22 @@ window.onload = function() {
       if (updateTimer >= screenDelay) {
         game.camera.x += step;
         ship.body.x += step;
+        ship.shieldSprite.x += step;
         updateTimer = 0;
         hudText.x += step;
+        weaponText.x += step;
         starfield.x += step;
+        weaponWheel.x += step;
+        weaponTag.x += step;
         starfield.tilePosition.x -= 1;
         enemies.forEach(function(enemy) {
-          if (!enemy.exists || !enemy.inCamera) {
+          if (!enemy.exists || !enemy.inCamera || enemy.orientation) {
             return false
           }
           enemy.x += step;
           }, this);
-          enemies2.forEach(function(enemy) {
-            if (!enemy.exists || !enemy.inCamera) {
-              return false
-            }
-            enemy.x += step;
-            }, this);
 
       }
-      //scroll bg
-
-
-      //Destroy out of bounds bullets
-      //Update step count
       updateTimer ++;
 
       //Kill bullets outside screen to preven offscreen kills
@@ -342,6 +225,18 @@ window.onload = function() {
     enemy.health -= 1;
     if (enemy.health <= 0) {
       score += enemy.data.max_health * 100;
+
+      let explosion = explosions.getFirstExists(false);
+      if (explosion) {
+        explosion.reset(enemy.body.x, enemy.body.y);
+        explosion.animations.add('enemy_explode')
+        explosion.animations.play('enemy_explode', 60, false, true);
+      }
+
+      //TODO: remove this to be handled only by enemies who drop a powerup
+      game.time.events.add(Phaser.Timer.SECOND * 1, spawn_powerup, this, enemy.body.x, enemy.body.y);
+      //END TODO
+
       enemy.kill();
       hudText.setText('Score : ' + score);
     }
@@ -352,15 +247,21 @@ window.onload = function() {
     bullet.kill();
   }
 
-  function bullet_hit_ship(bullet, ship) {
+
+  function bullet_hit_ship(ship, bullet) {
     //Destroy bullet and ship on collision
-    var explosion = game.add.sprite(ship.x - 32, ship.y,'ship_explode');
-    explosion.animations.add('explode')
-    explosion.animations.play('explode', 60, false, true);
     bullet.kill();
-    ship.kill();
-    game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
-    //Wait for one second before resetting game
+    if (ship.shield == 0) {
+      var explosion = game.add.sprite(ship.x, ship.y,'ship_explode');
+      explosion.animations.add('explode')
+      explosion.animations.play('explode', 60, false, true);
+      ship.kill();
+      game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
+      //Wait for one second before resetting game
+    }
+    else {
+      ship.damage_shield();
+    }
   }
 
   function ship_hit_wall(ship, wall) {
@@ -369,37 +270,17 @@ window.onload = function() {
     explosion.animations.add('explode')
     explosion.animations.play('explode', 60, false, true);
     ship.kill();
+    ship.shieldSprite.kill();
     game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
   }
 
-
-  function shoot() {
-    if (game.time.now > bulletTime) {
-      bullet = bullets.getFirstExists(false);
-      if (bullet) {
-        bullet.reset(ship.body.x + 32, ship.body.y + 8);
-        bullet.animations.add('glow');
-        bullet.animations.play('glow', 10, true);
-        bullet.body.velocity.x = 400;
-        bulletTime = game.time.now + 400
-      }
-    }
-  }
 
   function reset_game() {
     //If ship has been destroyed, reset everything
     //Reset enemies on their spawn positions
     enemies.forEach(function(enemy) {
-      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
-      enemy.health = enemy.data.max_health;
-    }, this);
-    enemies2.forEach(function(enemy) {
-      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
-      enemy.health = enemy.data.max_health;
-    }, this);
-    enemies3.forEach(function(enemy) {
-      enemy.reset(enemy.data.spawn_x, enemy.data.spawn_y);
-      enemy.health = enemy.data.max_health;
+      enemy.reset(enemy.spawn_x, enemy.spawn_y);
+      enemy.health = enemy.max_health;
     }, this);
     enemyBullets.forEach(function(bullet) {
       bullet.kill();
@@ -409,7 +290,22 @@ window.onload = function() {
     hudText.reset(10, 350);
     score = 0;
     hudText.setText('Score : ' + score);
+    weaponWheel.x = 0;
     starfield.reset();
+  }
+
+  function spawn_powerup(x, y) {
+    let powerup = powerups.getFirstExists(false);
+    if (powerup) {
+      powerup.reset(x,y);
+      powerup.animations.add('powerup')
+      powerup.animations.play('powerup', 3, true);
+    }
+  }
+
+  function pickup_powerup(ship, powerup) {
+    ship.next_weapon();
+    powerup.kill();
   }
 
 };
