@@ -23,7 +23,8 @@ window.onload = function() {
       space : null,
       m_key : null,
       weaponWheel : null,
-      weaponText : null
+      weaponText : null,
+      enemies : null
     }
 
     var map;
@@ -33,7 +34,6 @@ window.onload = function() {
     var step = 2; //The step size for scrolling the screen
     var updateTimer; //Timer for counting how many times the update function has run.
     var score = 0;
-    var enemies;
     var weaponTag;
 
 
@@ -52,6 +52,7 @@ window.onload = function() {
       game.load.image('ship', 'salamandra/img/ship.png');
       game.load.image('dummy', 'salamandra/img/dummy.png');
       game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 1);
+      game.load.spritesheet('fleetShip', 'salamandra/img/small_fleet.png', 36, 16);
       game.load.spritesheet('shooter', 'salamandra/img/shooting_enemy.png', 32, 32, 1);
       game.load.spritesheet('cannon', 'salamandra/img/cannon.png', 32, 32, 4);
       game.load.spritesheet('enemy_bullet', 'salamandra/img/enemy_bullet.png', 6, 6, 4);
@@ -163,6 +164,11 @@ window.onload = function() {
             game.physics.enable(enemy);
             enemies.add(enemy);
           }
+          else if (object.type == 'fleetship') {
+            let enemy = new FleetShip(game,object.x,object.y, true);
+            game.physics.enable(enemy);
+            enemies.add(enemy);
+          }
           else if (object.type == 'cannon') {
             let enemy = new Cannon(game,object.x,object.y, object.properties.orientation);
             game.physics.enable(enemy);
@@ -245,10 +251,9 @@ window.onload = function() {
         explosion.animations.add('enemy_explode')
         explosion.animations.play('enemy_explode', 60, false, true);
       }
-
-      //TODO: remove this to be handled only by enemies who drop a powerup
-      game.time.events.add(Phaser.Timer.SECOND * 1, spawn_powerup, this, enemy.body.x, enemy.body.y);
-      //END TODO
+      if (enemy.dropPowerUp) {
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, spawn_powerup, this, enemy.body.x, enemy.body.y);
+      }
 
       enemy.kill();
       increase_score(enemy.score);

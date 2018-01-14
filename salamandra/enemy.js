@@ -15,6 +15,36 @@ class Enemy extends Phaser.Sprite {
   }
 }
 
+class FleetShip extends Enemy {
+  constructor(game, x, y, is_leader) {
+    super(game, x, y, 'fleetShip');
+    this.health = 1;
+    this.max_health = 1;
+    this.is_leader = is_leader;
+    this.score = 100;
+    if (this.is_leader) {
+      this.dropPowerUp = true;
+      this.frame = 1;
+      let wingman = new FleetShip(game, x + 20, y - 20 , false);
+      this.game.physics.enable(wingman);
+      enemies.add(wingman);
+      wingman = new FleetShip(game, x + 20, y + 20 , false);
+      this.game.physics.enable(wingman);
+      enemies.add(wingman);
+    }
+
+
+  }
+
+  update() {
+    if (!this.exists || !this.inCamera) {
+      return false
+    }
+    this.body.velocity.y = 0;
+    this.body.velocity.x = -120;
+  }
+}
+
 
 
 class Scout extends Enemy {
@@ -117,6 +147,7 @@ class Cannon extends Enemy {
     this.fireDelay = 0;
     this.score = 1000;
     this.orientation = orientation;
+    this.dropPowerUp = true;
 
   }
 
