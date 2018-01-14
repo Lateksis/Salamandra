@@ -18,6 +18,7 @@ window.onload = function() {
       ship : null,
       enemyBullets : null,
       bullets : null,
+      options : null,
       cursors : null,
       space : null,
       m_key : null,
@@ -60,6 +61,7 @@ window.onload = function() {
       game.load.spritesheet('weapon_selector', 'salamandra/img/weapon_selector.png', 20, 10);
       game.load.image('weapon_tag', 'salamandra/img/weapon_tag.png');
       game.load.spritesheet('shield', 'salamandra/img/shield.png', 36, 20, 7);
+      game.load.spritesheet('option', 'salamandra/img/option.png', 36, 18);
     }
 
 
@@ -85,6 +87,11 @@ window.onload = function() {
       powerups = game.add.group();
       powerups.enableBody = true;
       powerups.createMultiple(20, 'powerup');
+
+      //Options
+      options = game.add.group();
+      options.enableBody = true;
+      options.createMultiple(5, 'option');
 
       //Enemy bullets
       enemyBullets = game.add.group();
@@ -201,6 +208,10 @@ window.onload = function() {
           }
           enemy.x += step;
           }, this);
+        options.forEachExists(function(opt) {
+          opt.body.x += step;
+
+        }, this);
 
       }
       updateTimer ++;
@@ -285,9 +296,17 @@ window.onload = function() {
     enemyBullets.forEach(function(bullet) {
       bullet.kill();
     }, this);
+    powerups.forEach(function(powerup) {
+      powerup.kill();
+    }, this);
+    options.forEach(function(opt) {
+      opt.kill();
+    }, this);
     game.camera.reset();
     ship.reset(20,100);
     hudText.reset(10, 350);
+    weaponText.reset(160, 348);
+    weaponTag.reset(125, 345);
     score = 0;
     hudText.setText('Score : ' + score);
     weaponWheel.x = 0;

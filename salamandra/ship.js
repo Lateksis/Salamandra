@@ -49,10 +49,16 @@ class Ship extends Phaser.Sprite {
     if (m_key.isDown) {
       this.select_weapon();
     }
-    if (this.shieldSprite.exists) {
+    if (this.shield > 0) {
       this.shieldSprite.body.velocity.x = this.body.velocity.x;
       this.shieldSprite.body.velocity.y = this.body.velocity.y;
     }
+
+    options.forEachExists(function(opt) {
+      opt.body.velocity.x = this.body.velocity.x;
+      opt.body.velocity.y = this.body.velocity.y;
+
+    }, this);
   }
 
 
@@ -64,7 +70,16 @@ class Ship extends Phaser.Sprite {
         bullet.animations.add('glow');
         bullet.animations.play('glow', 10, true);
         bullet.body.velocity.x = 400;
-        this.bulletTime = this.game.time.now + 400
+        this.bulletTime = this.game.time.now + (400 - (this.fireRate * 20));
+        options.forEachExists(function(opt) {
+          bullet = bullets.getFirstExists(false);
+          if (bullet) {
+            bullet.reset(opt.body.x + 32, opt.body.y + 8);
+            bullet.animations.add('glow');
+            bullet.animations.play('glow', 10, true);
+            bullet.body.velocity.x = 400;
+          }
+        }, this);
       }
     }
   }
@@ -98,6 +113,22 @@ class Ship extends Phaser.Sprite {
       weaponWheel.getChildAt(0).frame = 0;
       this.selector = -1;
     }
+    else if(this.selector == 1) {
+      this.fireRate += 1;
+      weaponWheel.getChildAt(1).frame = 0;
+      this.selector = -1;
+    }
+    else if(this.selector == 2) {
+      this.damage += 1;
+      weaponWheel.getChildAt(2).frame = 0;
+      this.selector = -1;
+    }
+    else if(this.selector == 3) {
+      weaponWheel.getChildAt(3).frame = 0;
+      this.selector = -1;
+      this.add_option();
+      this.option += 1;
+    }
     else if(this.selector == 4) {
       this.shield += 1;
       weaponWheel.getChildAt(4).frame = 0;
@@ -118,6 +149,25 @@ class Ship extends Phaser.Sprite {
     this.shield -= 1;
     if (this.shield == 0) {
       this.shieldSprite.kill();
+    }
+  }
+
+  add_option() {
+    let opt = options.getFirstExists(false);
+    let x_pos = 0;
+    let y_pos = 0;
+    if (opt) {
+      if (this.option == 0) {
+        x_pos = this.body.x;
+        y_pos = this.body.y + 32;
+      }
+      else if (this.option == 1) {
+        x_pos = this.body.x;
+        y_pos = this.body.y + - 32;
+      }
+      opt.reset(x_pos, y_pos);
+      opt.animations.add('option_glow');
+      opt.animations.play('option_glow', 10, true);
     }
   }
 
