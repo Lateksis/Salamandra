@@ -15,6 +15,9 @@ class Ship extends Phaser.Sprite {
   }
 
   update() {
+    if (!ship.exists) {
+      return false;
+    }
     //Reset ship velocity
     this.body.velocity.y = 0;
     this.body.velocity.x = 0;
@@ -25,22 +28,22 @@ class Ship extends Phaser.Sprite {
     //Controls
     if (cursors.left.isDown) {
       if (this.x - 2 > this.game.camera.x) {
-        this.body.velocity.x -= 80 + this.speed;
+        this.body.velocity.x -= 80 + this.speed * 10;
       }
     }
     if (cursors.right.isDown) {
       if (this.x + 34 < this.game.camera.x + this.game.camera.width) {
-        this.body.velocity.x += 80 + this.speed;
+        this.body.velocity.x += 80 + this.speed * 10;
       }
     }
     if (cursors.up.isDown) {
       if (this.y - 2 > this.game.camera.y) {
-        this.body.velocity.y -= 80 + this.speed;
+        this.body.velocity.y -= 80 + this.speed * 10;
       }
     }
     if (cursors.down.isDown) {
       if (this.y < this.game.camera.height - 80) {
-        this.body.velocity.y += 80 + this.speed;
+        this.body.velocity.y += 80 + this.speed * 10;
       }
     }
     if (space.isDown) {
@@ -59,6 +62,20 @@ class Ship extends Phaser.Sprite {
       opt.body.velocity.y = this.body.velocity.y;
 
     }, this);
+  }
+  reset(){
+    weaponWheel.forEach(function(sel) {
+      sel.frame = 0;
+    }, this);
+    weaponText.setText('');
+    this.selector = -1;
+    this.speed = 0;
+    this.fireRate = 0;
+    this.damage = 0;
+    this.option = 0;
+    this.shield = 0;
+    this.bulletTime = 0;
+    return super.reset();
   }
 
 
@@ -89,29 +106,52 @@ class Ship extends Phaser.Sprite {
       weaponWheel.getChildAt(this.selector).frame = 0;
     }
     this.selector = (this.selector + 1) % 5;
-    weaponWheel.getChildAt(this.selector).frame = 1;
     if (this.selector == 0) {
-      weaponText.setText('SPEED');
+      if (this.speed >= 10) {
+        this.selector += 1;
+      }
+      else {
+        weaponText.setText('SPEED');
+      }
     }
-    else if (this.selector == 1) {
-      weaponText.setText('FIRESP');
+    if (this.selector == 1) {
+      if (this.fireRate >= 5) {
+        this.selector += 1;
+      }
+      else {
+        weaponText.setText('FIRESP');
+      }
     }
-    else if (this.selector == 2) {
+    if (this.selector == 2) {
       weaponText.setText('POWER');
     }
-    else if (this.selector == 3) {
-      weaponText.setText('OPTION');
+    if (this.selector == 3) {
+      if (this.option >= 2) {
+        this.selector += 1;
+      }
+      else {
+        weaponText.setText('OPTION');
+      }
     }
-    else if (this.selector == 4) {
-      weaponText.setText('SHIELD');
+    if (this.selector == 4) {
+      if (this.shield >= 2) {
+        this.selector = 1;
+      }
+      else {
+        weaponText.setText('SHIELD');
+      }
     }
+    weaponWheel.getChildAt(this.selector).frame = 1;
   }
 
   select_weapon() {
     if(this.selector == 0) {
-      this.speed += 10;
+      this.speed += 1;
       weaponWheel.getChildAt(0).frame = 0;
       this.selector = -1;
+      if (this.speed >= 10) {
+        weaponWheel.getChildAt(0).frame = 2;
+      }
     }
     else if(this.selector == 1) {
       this.fireRate += 1;
@@ -128,6 +168,9 @@ class Ship extends Phaser.Sprite {
       this.selector = -1;
       this.add_option();
       this.option += 1;
+      if (this.option >= 2) {
+        weaponWheel.getChildAt(3).frame = 2;
+      }
     }
     else if(this.selector == 4) {
       this.shield += 1;

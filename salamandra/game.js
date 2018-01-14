@@ -267,6 +267,9 @@ window.onload = function() {
       explosion.animations.add('explode')
       explosion.animations.play('explode', 60, false, true);
       ship.kill();
+      options.forEach(function(opt) {
+        opt.kill();
+      }, this);
       game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
       //Wait for one second before resetting game
     }
@@ -282,6 +285,9 @@ window.onload = function() {
     explosion.animations.play('explode', 60, false, true);
     ship.kill();
     ship.shieldSprite.kill();
+    options.forEach(function(opt) {
+      opt.kill();
+    }, this);
     game.time.events.add(Phaser.Timer.SECOND * 3, reset_game, this);
   }
 
@@ -298,9 +304,6 @@ window.onload = function() {
     }, this);
     powerups.forEach(function(powerup) {
       powerup.kill();
-    }, this);
-    options.forEach(function(opt) {
-      opt.kill();
     }, this);
     game.camera.reset();
     ship.reset(20,100);
