@@ -22,6 +22,7 @@ class Scout extends Enemy {
     super(game, x, y, 'scout');
     this.health = 1;
     this.max_health = 1;
+    this.score = 100;
 
   }
 
@@ -52,6 +53,7 @@ class Shooter extends Enemy {
     this.health = 4;
     this.max_health = 4;
     this.fireDelay = 0;
+    this.score = 500;
 
   }
 
@@ -113,8 +115,15 @@ class Cannon extends Enemy {
     this.health = 5;
     this.max_health = 5;
     this.fireDelay = 0;
+    this.score = 1000;
     this.orientation = orientation;
 
+  }
+
+  getFrame() {
+    if (this.orientation == 'left') {
+      this.frame = 3;
+    }
   }
 
   update() {

@@ -53,7 +53,7 @@ window.onload = function() {
       game.load.image('dummy', 'salamandra/img/dummy.png');
       game.load.spritesheet('scout', 'salamandra/img/scout.png', 32, 32, 1);
       game.load.spritesheet('shooter', 'salamandra/img/shooting_enemy.png', 32, 32, 1);
-      game.load.spritesheet('cannon', 'salamandra/img/cannon.png', 32, 32);
+      game.load.spritesheet('cannon', 'salamandra/img/cannon.png', 32, 32, 4);
       game.load.spritesheet('enemy_bullet', 'salamandra/img/enemy_bullet.png', 6, 6, 4);
       game.load.spritesheet('ship_explode', 'salamandra/img/ship_explode.png', 32, 16);
       game.load.spritesheet('enemy_explode', 'salamandra/img/enemy_explode.png', 32, 32);
@@ -130,9 +130,10 @@ window.onload = function() {
         }
       }, this);
       //Create HUD
-      hudText = game.add.bitmapText(10, 350, 'font', 'Score : 0', 8);
+      scoreText = game.add.bitmapText(10, 350, 'font', '0', 16);
       pauseText = game.add.bitmapText(270,150 , 'font', 'PAUSED', 16);
       pauseText.visible = false;
+      scoreText.tint = 0x00ffff;
 
       weaponWheel = game.add.group();
       weaponWheel.createMultiple(5, 'weapon_selector', 0, true);
@@ -143,6 +144,7 @@ window.onload = function() {
       weaponTag = game.add.sprite(125, 345, 'weapon_tag');
       weaponText = game.add.bitmapText(160, 348, 'font', ' ', 14);
       weaponText.tint = 0x000001;
+      scoreText.alignTo(weaponTag, Phaser.LEFT_TOP, 5);
 
 
       //Create enemies from object layer of the Tilemap
@@ -165,6 +167,7 @@ window.onload = function() {
             let enemy = new Cannon(game,object.x,object.y, object.properties.orientation);
             game.physics.enable(enemy);
             enemies.add(enemy);
+            enemy.getFrame();
             enemy.body.immovable = true;
           }
         }
@@ -196,7 +199,7 @@ window.onload = function() {
         ship.body.x += step;
         ship.shieldSprite.x += step;
         updateTimer = 0;
-        hudText.x += step;
+        scoreText.x += step;
         weaponText.x += step;
         starfield.x += step;
         weaponWheel.x += step;
@@ -235,7 +238,6 @@ window.onload = function() {
     bullet.kill();
     enemy.health -= 1;
     if (enemy.health <= 0) {
-      score += enemy.data.max_health * 100;
 
       let explosion = explosions.getFirstExists(false);
       if (explosion) {
@@ -249,7 +251,7 @@ window.onload = function() {
       //END TODO
 
       enemy.kill();
-      hudText.setText('Score : ' + score);
+      increase_score(enemy.score);
     }
   }
 
@@ -307,11 +309,12 @@ window.onload = function() {
     }, this);
     game.camera.reset();
     ship.reset(20,100);
-    hudText.reset(10, 350);
+    scoreText.reset(10, 350);
     weaponText.reset(160, 348);
     weaponTag.reset(125, 345);
     score = 0;
-    hudText.setText('Score : ' + score);
+    scoreText.setText(score);
+    scoreText.alignTo(weaponTag, Phaser.LEFT_TOP, 5);
     weaponWheel.x = 0;
     starfield.reset();
   }
@@ -328,6 +331,13 @@ window.onload = function() {
   function pickup_powerup(ship, powerup) {
     ship.next_weapon();
     powerup.kill();
+    increase_score(150);
+  }
+
+  function increase_score(points) {
+    score += points
+    scoreText.setText(score);
+    scoreText.alignTo(weaponTag, Phaser.LEFT_TOP, 5);
   }
 
 };

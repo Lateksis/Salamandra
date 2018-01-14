@@ -26,10 +26,14 @@
 
 10.1.2018
 
++ Make text area for powerup scroll - DONE
++ Make shield absorb enemy bullets and break - DONE
++ Give upper limit to powerups - DONE
++ Make fire rate work - DONE
++ Make option work - DONE
 14.1.2018
-+ Make text area for powerup scroll
-+ Make shield absorb enemy bullets and break
-+ Give upper limit to powerups
-+ Make fire rate work
+
+
+
+
 + Make damage work
-+ Make option work

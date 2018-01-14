@@ -63,7 +63,7 @@ class Ship extends Phaser.Sprite {
 
     }, this);
   }
-  reset(){
+  reset(x,y){
     weaponWheel.forEach(function(sel) {
       sel.frame = 0;
     }, this);
@@ -75,7 +75,7 @@ class Ship extends Phaser.Sprite {
     this.option = 0;
     this.shield = 0;
     this.bulletTime = 0;
-    return super.reset();
+    return super.reset(x,y);
   }
 
 
