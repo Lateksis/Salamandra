@@ -13,6 +13,10 @@ var playState= {
       bullets.enableBody = true;
       bullets.createMultiple(30, 'bullet');
 
+      rockets = game.add.group();
+      rockets.enableBody = true;
+      rockets.createMultiple(30, 'rocket');
+
       //Explosions
       explosions = game.add.group();
       explosions.createMultiple(20, 'enemy_explode');
@@ -36,7 +40,7 @@ var playState= {
       enemies.enableBody = true;
 
       updateTimer = 0;
-      game.world.setBounds(0,0,11200,320);
+      game.world.setBounds(0,0,12512,320);
 
 
       map.addTilesetImage('Design_tileset', 'tiles');
@@ -133,26 +137,29 @@ var playState= {
 
       //Scroll screen
       if (updateTimer >= screenDelay) {
-        game.camera.x += step;
-        ship.body.x += step;
-        ship.shieldSprite.x += step;
         updateTimer = 0;
-        scoreText.x += step;
-        weaponText.x += step;
-        starfield.x += step;
-        weaponWheel.x += step;
-        weaponTag.x += step;
-        starfield.tilePosition.x -= 1;
-        enemies.forEach(function(enemy) {
-          if (!enemy.exists || !enemy.inCamera || enemy.body.immovable) {
-            return false
-          }
-          enemy.x += step;
-          }, this);
-        options.forEachExists(function(opt) {
-          opt.body.x += step;
+        if ((game.camera.x + game.camera.width) < 12512) {
+          game.camera.x += step;
+          ship.body.x += step;
+          ship.shieldSprite.x += step;
+          scoreText.x += step;
+          weaponText.x += step;
+          starfield.x += step;
+          weaponWheel.x += step;
+          weaponTag.x += step;
+          enemies.forEach(function(enemy) {
+            if (!enemy.exists || !enemy.inCamera || enemy.body.immovable) {
+              return false
+            }
+            enemy.x += step;
+            }, this);
+          options.forEachExists(function(opt) {
+            opt.body.x += step;
 
-        }, this);
+          }, this);
+        }
+        starfield.tilePosition.x -= 1;
+
 
       }
       updateTimer ++;

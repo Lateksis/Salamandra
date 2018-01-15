@@ -35,7 +35,14 @@
 14.1.2018
 
 + Make start menu - DONE
++ Create enemy type GATE - DONE
 15.1.2018
 
 + Make a fading title for stage 1
-+ Create enemy type GATE
++ Replace power upgrade with missile -in progress - ?
++ Make option follow in a more original way?
++ COMPLETE STAGE I by:
+  - Creating & adding tiles for big fighters
+  - Extending game area
+  - Planning and inserting Enemies
+  -

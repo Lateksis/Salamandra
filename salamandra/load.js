@@ -27,6 +27,7 @@ var loadState= {
     game.load.spritesheet('option', 'salamandra/img/option.png', 36, 18);
     game.load.spritesheet('gate', 'salamandra/img/gate.png', 32, 32);
     game.load.spritesheet('gate_core', 'salamandra/img/gate_core.png', 32, 32, 6);
+    game.load.spritesheet('rocket', 'salamandra/img/rocket.png', 20, 12, 3);
 
 
   },

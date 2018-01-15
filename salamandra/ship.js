@@ -12,6 +12,8 @@ class Ship extends Phaser.Sprite {
     this.shieldSprite.animations.add('shield_animation');
     this.game.physics.enable(this.shieldSprite);
     this.shieldSprite.kill();
+    this.previous_x = 0;
+    this.previous_y = 0;
   }
 
   update() {
@@ -214,4 +216,10 @@ class Ship extends Phaser.Sprite {
     }
   }
 
+}
+
+class Rocket extends Phaser.Sprite {
+  constructor(game) {
+    super(game, 0, 0, 'ship');
+  }
 }

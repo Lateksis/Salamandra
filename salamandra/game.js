@@ -14,6 +14,7 @@ game.antialias = false;
 var ship;
 var enemyBullets;
 var bullets;
+var rockets;
 var options;
 var cursors;
 var space;
