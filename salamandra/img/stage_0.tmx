@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="590" height="12" tilewidth="32" tileheight="32" nextobjectid="72">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="590" height="12" tilewidth="32" tileheight="32" nextobjectid="75">
  <tileset firstgid="1" name="Design_tileset" tilewidth="32" tileheight="32" tilecount="6" columns="3">
   <image source="Design_tileset.png" width="96" height="64"/>
  </tileset>
@@ -205,5 +205,17 @@
   <object id="69" name="FleetShip" type="fleetship" x="4134.5" y="176.5" width="25" height="25"/>
   <object id="70" name="FleetShip" type="fleetship" x="4008.5" y="175.5" width="25" height="25"/>
   <object id="71" name="FleetShip" type="fleetship" x="3944.5" y="122.5" width="25" height="25"/>
+  <object id="73" name="Gate" type="gate" x="4513" y="164.5" width="28" height="25">
+   <properties>
+    <property name="size_down" value="3"/>
+    <property name="size_up" value="3"/>
+   </properties>
+  </object>
+  <object id="74" name="Gate" type="gate" x="5091" y="164.5" width="28" height="25">
+   <properties>
+    <property name="size_down" value="3"/>
+    <property name="size_up" value="3"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

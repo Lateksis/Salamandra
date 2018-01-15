@@ -1,11 +1,11 @@
 var loadState= {
   preload: function() {
-    this.game.load.image('bg', 'salamandra/img/bg.png');
+    game.load.image('bg', 'salamandra/img/bg.png');
     game.load.bitmapFont('font', 'salamandra/img/font.png', 'salamandra/img/font.fnt' )
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.setMinMax(540, 384, 1080, 768);
     game.renderer.renderSession.roundPixels = true;
-    Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+    Phaser.Canvas.setImageRenderingCrisp(game.canvas);
     game.load.tilemap('stage0', 'salamandra/img/stage_0.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles', 'salamandra/img/Design_tileset.png');
     game.load.image('ship_tiles', 'salamandra/img/ships.png');
@@ -25,5 +25,15 @@ var loadState= {
     game.load.image('weapon_tag', 'salamandra/img/weapon_tag.png');
     game.load.spritesheet('shield', 'salamandra/img/shield.png', 36, 20, 7);
     game.load.spritesheet('option', 'salamandra/img/option.png', 36, 18);
+    game.load.spritesheet('gate', 'salamandra/img/gate.png', 32, 32);
+    game.load.spritesheet('gate_core', 'salamandra/img/gate_core.png', 32, 32, 6);
+
+
+  },
+  create: function() {
+    cursors = game.input.keyboard.createCursorKeys();
+    space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    m_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
+    game.state.start('menu');
   }
 }

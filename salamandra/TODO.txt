@@ -34,6 +34,8 @@
 
 14.1.2018
 
-+ Make start menu
++ Make start menu - DONE
+15.1.2018
+
 + Make a fading title for stage 1
 + Create enemy type GATE

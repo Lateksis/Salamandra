@@ -4,6 +4,20 @@ class Enemy extends Phaser.Sprite {
     super(game, x, y, sprite);
     this.spawn_x = x;
     this.spawn_y = y;
+    game.physics.enable(this);
+    enemies.add(this);
+  }
+  kill() {
+    let explosion = explosions.getFirstExists(false);
+    if (explosion) {
+      explosion.reset(this.body.x, this.body.y);
+      explosion.animations.add('enemy_explode')
+      explosion.animations.play('enemy_explode', 60, false, true);
+    }
+    if (this.dropPowerUp) {
+      game.time.events.add(Phaser.Timer.SECOND * 0.5, spawn_powerup, this, this.body.x, this.body.y);
+    }
+    return super.kill();
   }
 
   stdUpdate() {
@@ -141,8 +155,8 @@ update() {
 
 class Cannon extends Enemy {
   constructor(game, x, y, orientation) {
-    //super(game, x, y, 'cannon');
     super(game, x, y - 32, 'cannon');
+    this.body.immovable = true;
     this.health = 5;
     this.max_health = 5;
     this.fireDelay = 0;
@@ -177,4 +191,64 @@ class Cannon extends Enemy {
         }
       }
     }
+  }
+
+
+
+    class Gate extends Enemy {
+      constructor(game, x, y, isCore, size_up, size_down) {
+        if (isCore) {
+          super(game, x, y - 32, 'gate_core');
+          this.health = 10; //The core is the only weak spot
+          this.max_health = 10;
+          this.animations.add('gate_core_glow');
+          this.animations.play('gate_core_glow', 10, true);
+        }
+        else {
+          super(game, x, y - 32, 'gate');
+          this.health = 100;
+          this.max_health = 100;
+          this.animations.add('gate_glow');
+          this.animations.play('gate_glow', 10, true);
+        }
+        this.body.immovable = true;
+        this.fireDelay = 0;
+        this.score = 1500;
+        this.dropPowerUp = false;
+        this.isCore = isCore;
+
+        //If this is the core, create other instances recursively to both sides thus creating a gate
+        let nextGate = null;
+        if (size_up > 0) {
+          nextGate = new Gate(game, x, y - 32, false, size_up - 1, 0);
+          game.physics.enable(nextGate);
+          enemies.add(nextGate);
+          this.rightGate = nextGate;
+        }
+        if (size_down > 0) {
+          nextGate = new Gate(game, x, y + 32, false, 0, size_down - 1);
+          game.physics.enable(nextGate);
+          enemies.add(nextGate);
+          this.leftGate = (nextGate);
+        }
+
+      }
+
+      kill() {
+        if (this.rightGate) {
+          game.time.events.add(Phaser.Timer.SECOND * 0.2, this.kill, this.rightGate);
+        }
+        if (this.leftGate) {
+          game.time.events.add(Phaser.Timer.SECOND * 0.2, this.kill, this.leftGate);
+        }
+        return super.kill();
+      }
+
+
+
+      update() {
+        if (!this.exists || !this.inCamera) {
+          return false
+        }
+      }
 }

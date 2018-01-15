@@ -780,6 +780,48 @@
                  "width":25,
                  "x":3944.5,
                  "y":122.5
+                }, 
+                {
+                 "height":25,
+                 "id":73,
+                 "name":"Gate",
+                 "properties":
+                    {
+                     "size_down":"3",
+                     "size_up":"3"
+                    },
+                 "propertytypes":
+                    {
+                     "size_down":"string",
+                     "size_up":"string"
+                    },
+                 "rotation":0,
+                 "type":"gate",
+                 "visible":true,
+                 "width":28,
+                 "x":4513,
+                 "y":164.5
+                }, 
+                {
+                 "height":25,
+                 "id":74,
+                 "name":"Gate",
+                 "properties":
+                    {
+                     "size_down":"3",
+                     "size_up":"3"
+                    },
+                 "propertytypes":
+                    {
+                     "size_down":"string",
+                     "size_up":"string"
+                    },
+                 "rotation":0,
+                 "type":"gate",
+                 "visible":true,
+                 "width":28,
+                 "x":5091,
+                 "y":164.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -787,7 +829,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":72,
+ "nextobjectid":75,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.0.3",
