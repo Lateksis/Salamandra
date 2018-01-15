@@ -84,6 +84,7 @@ class Shooter extends Enemy {
     this.max_health = 4;
     this.fireDelay = 0;
     this.score = 500;
+    this.dropPowerUp = true;
 
   }
 

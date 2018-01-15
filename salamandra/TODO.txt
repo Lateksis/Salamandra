@@ -31,9 +31,9 @@
 + Give upper limit to powerups - DONE
 + Make fire rate work - DONE
 + Make option work - DONE
+
 14.1.2018
 
-
-
-
-+ Make damage work
++ Make start menu
++ Make a fading title for stage 1
++ Create enemy type GATE

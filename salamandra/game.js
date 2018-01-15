@@ -36,6 +36,12 @@ window.onload = function() {
     var score = 0;
     var weaponTag;
 
+    game.state.add('load', loadState);
+    game.state.add('menu', menuState);
+    game.state.add('play', playState);
+
+    //game.state.start('load');
+
 
     function preload () {
       this.game.load.image('bg', 'salamandra/img/bg.png');
@@ -63,17 +69,24 @@ window.onload = function() {
       game.load.image('weapon_tag', 'salamandra/img/weapon_tag.png');
       game.load.spritesheet('shield', 'salamandra/img/shield.png', 36, 20, 7);
       game.load.spritesheet('option', 'salamandra/img/option.png', 36, 18);
+
+      //Create main menu
     }
 
 
 
     function create () {
+      let title = game.add.bitmapText(160, 348, 'font', 'SALAMANDRA', 32);
+      cursors = game.input.keyboard.createCursorKeys();
+      space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      m_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
+
       starfield = game.add.tileSprite(0,0,512,512, 'bg');
+      game.physics.startSystem(Phaser.Physics.ARCADE);
       map = game.add.tilemap('stage0');
       map.addTilesetImage('inside_ship', 'inside_ship');
       layer2 = map.createLayer('Background');
       layer2.smoothed = false;
-      game.physics.startSystem(Phaser.Physics.ARCADE);
       //Create groups for different types of bodies
       //Bullets shot by player
       bullets = game.add.group();
@@ -109,16 +122,13 @@ window.onload = function() {
       map.addTilesetImage('Design_tileset', 'tiles');
       map.addTilesetImage('ships', 'ship_tiles');
       layer = map.createLayer('Tile Layer 1');
-      map.setCollisionBetween(0,20);
+      layer.smoothed = false;
+
       //Create Ship
-      //ship = game.add.sprite(20,100, 'ship');
       ship = new Ship(game);
       game.physics.enable(ship);
       game.add.existing(ship);
       game.add.existing(ship.shieldSprite);
-      cursors = game.input.keyboard.createCursorKeys();
-      space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-      m_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
       this.game.input.keyboard.addKey(Phaser.Keyboard.P).onDown.add(function () {
         if (!game.paused) {
           pauseText.x = game.camera.x + 220;
@@ -178,6 +188,11 @@ window.onload = function() {
           }
         }
       }
+      //Transparent front layer
+      layer3 = map.createLayer('Transparent');
+      layer3.smoothed = false;
+
+      map.setCollisionBetween(0, 99, true, layer);
 
 
     }
@@ -185,6 +200,9 @@ window.onload = function() {
     function update () {
       if (!ship.exists) {
         return false;
+      }
+      if (game.camera.x > 3650 && layer3.alpha > 0.2) {
+      layer3.alpha -= 0.005;
       }
       // Check for collisions
       game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
