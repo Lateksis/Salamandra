@@ -45,4 +45,5 @@
   - Creating & adding tiles for big fighters
   - Extending game area
   - Planning and inserting Enemies
-  -
+  - Creating stage boss
+  - Creating win state for Game

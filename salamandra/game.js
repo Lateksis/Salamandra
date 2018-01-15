@@ -1,10 +1,5 @@
-/* DEBUG VARIABLES */
-var noCollision = false;
 
-  /* DEBUG FUNCTIONS */
-function toggle_collision() {
-  noCollision = document.getElementById("collision_box").value;
-}
+
 var game = new Phaser.Game(540, 384, Phaser.AUTO, '');
 game.state.add('load', loadState);
 game.state.add('menu', menuState);

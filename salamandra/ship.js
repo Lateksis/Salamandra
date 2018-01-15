@@ -220,6 +220,8 @@ class Ship extends Phaser.Sprite {
 
 class Rocket extends Phaser.Sprite {
   constructor(game) {
-    super(game, 0, 0, 'ship');
+    super(game, 0, 0, 'rocket');
   }
+
+
 }

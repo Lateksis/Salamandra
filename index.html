@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>hello phaser!</title>
         <script src="http://dev.lateksis.win/phaser-ce/build/phaser.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
 
@@ -15,7 +16,33 @@
     <script src="salamandra/game.js"></script>
 
     <p>
-      <input type="checkbox" onclick="toggle_collision()" id="collision_box" /> No collision check
+      <input type="checkbox" id="collision_box" /> No collision check
+      <input type="checkbox" id="turbo_box" /> Turbo mode
     </p>
+
+    <script>
+    /* DEBUG VARIABLES */
+    var noCollision = false;
+    var turboMode = false;
+
+      /* DEBUG FUNCTIONS */
+    $("#collision_box").change(function() {
+      if(this.checked) {
+        noCollision = true;
+      }
+      else {
+        noCollison = false;
+      }
+    });
+
+    $("#turbo_box").change(function() {
+      if(this.checked) {
+        turboMode = true;
+      }
+      else {
+        turboMode = false;
+      }
+    });
+    </script>
     </body>
 </html>

@@ -126,15 +126,17 @@ var playState= {
       layer3.alpha += 0.005;
       }
       // Check for collisions
-      game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
-      game.physics.arcade.collide(enemies, layer);
-      game.physics.arcade.collide(enemies, enemies);
-      game.physics.arcade.collide(ship, enemies, bullet_hit_ship, null, this);
-      game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
-      game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
-      game.physics.arcade.overlap(ship, powerups, pickup_powerup, null, this);
-      game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
-      game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
+      if (!noCollision) {
+        game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
+        game.physics.arcade.collide(enemies, layer);
+        game.physics.arcade.collide(enemies, enemies);
+        game.physics.arcade.collide(ship, enemies, bullet_hit_ship, null, this);
+        game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
+        game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
+        game.physics.arcade.overlap(ship, powerups, pickup_powerup, null, this);
+        game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
+        game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
+      }
 
 
 
@@ -162,6 +164,9 @@ var playState= {
           }, this);
         }
         starfield.tilePosition.x -= 1;
+        if (turboMode) {
+          screenDelay = 0;
+        }
 
 
       }
