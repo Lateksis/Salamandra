@@ -125,10 +125,10 @@ var playState= {
       if (!ship.exists) {
         return false;
       }
-      if (game.camera.x > 3600 && game.camera.x < 6820 && layer3.alpha > 0.2) {
+      if (game.camera.x > 4070 && game.camera.x < 7250 && layer3.alpha > 0.2) {
       layer3.alpha -= 0.005;
       }
-      if (game.camera.x > 6820 && layer3.alpha < 1) {
+      if (game.camera.x > 7250 && layer3.alpha < 1) {
       layer3.alpha += 0.005;
       }
       // Check for collisions
