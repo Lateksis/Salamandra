@@ -110,6 +110,12 @@ var playState= {
       layer3 = map.createLayer('Transparent');
       layer3.smoothed = false;
 
+      //Stage 1 title text
+      stageTitle = new TitleText(game, game.camera.width + 400, 140, 'STAGE 1', 1);
+      game.add.existing(stageTitle);
+      stageTitle2 = new TitleText(game, -400, 180, 'Escape from planet Taranis through invasion fleet Enlil', 2);
+      game.add.existing(stageTitle2);
+
       map.setCollisionBetween(0, 99, true, layer);
 
 
@@ -148,6 +154,8 @@ var playState= {
           ship.body.x += step;
           ship.shieldSprite.x += step;
           scoreText.x += step;
+          stageTitle.x += step;
+          stageTitle2.x += step;
           weaponText.x += step;
           starfield.x += step;
           weaponWheel.x += step;
