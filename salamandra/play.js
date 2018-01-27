@@ -19,7 +19,7 @@ var playState= {
 
       //Explosions
       explosions = game.add.group();
-      explosions.createMultiple(20, 'enemy_explode');
+      explosions.createMultiple(30, 'enemy_explode');
 
       //Powerups
       powerups = game.add.group();
@@ -197,7 +197,11 @@ var playState= {
         bullets.forEachAlive(function(bullet) {
           if (bullet.x > game.camera.x + game.camera.width) {
             bullet.kill();
-            map.layers[0].x -= 20;
+          }
+        }, this);
+        powerups.forEachAlive(function(powerup) {
+          if (powerup.x + 32 < game.camera.x) {
+            powerup.kill();
           }
         }, this);
       }

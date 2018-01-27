@@ -8,15 +8,17 @@ class Enemy extends Phaser.Sprite {
     enemies.add(this);
   }
   kill() {
-    let explosion = explosions.getFirstExists(false);
-    if (explosion) {
-      explosion.reset(this.body.x, this.body.y);
-      explosion.animations.add('enemy_explode')
-      explosion.animations.play('enemy_explode', 60, false, true);
-      explosion.lifespan = 1000;
-    }
-    if (this.dropPowerUp) {
-      game.time.events.add(Phaser.Timer.SECOND * 0.5, spawn_powerup, this, this.body.x, this.body.y);
+    if (this.inCamera) {
+      let explosion = explosions.getFirstExists(false);
+      if (explosion) {
+        explosion.reset(this.body.x, this.body.y);
+        explosion.animations.add('enemy_explode')
+        explosion.animations.play('enemy_explode', 60, false, true);
+        explosion.lifespan = 1000;
+      }
+      if (this.dropPowerUp) {
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, spawn_powerup, this, this.body.x, this.body.y);
+      }
     }
     return super.kill();
   }
@@ -24,7 +26,7 @@ class Enemy extends Phaser.Sprite {
   autoKill() {
     //Function to kill offscreen enemies
     if (this.exists && this.x < this.game.camera.x) {
-      this.destroy();
+      this.kill();
     }
 
   }
