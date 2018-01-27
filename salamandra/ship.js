@@ -48,10 +48,10 @@ class Ship extends Phaser.Sprite {
         this.body.velocity.y += 80 + this.speed * 10;
       }
     }
-    if (space.isDown) {
+    if (space.isDown || z_key.isDown) {
       this.shoot();
     }
-    if (m_key.isDown) {
+    if (m_key.isDown || x_key.isDown) {
       this.select_weapon();
     }
     if (this.shield > 0) {

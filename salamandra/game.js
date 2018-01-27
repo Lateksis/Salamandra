@@ -1,6 +1,6 @@
 
 
-var game = new Phaser.Game(540, 384, Phaser.AUTO, '');
+var game = new Phaser.Game(540, 384, Phaser.AUTO, 'gameWindow');
 game.state.add('load', loadState);
 game.state.add('menu', menuState);
 game.state.add('play', playState);
@@ -14,6 +14,8 @@ var options;
 var cursors;
 var space;
 var m_key;
+var z_key;
+var x_key;
 var weaponWheel;
 var weaponText;
 var enemies;

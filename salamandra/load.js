@@ -38,6 +38,8 @@ var loadState= {
     cursors = game.input.keyboard.createCursorKeys();
     space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     m_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
+    z_key = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    x_key = game.input.keyboard.addKey(Phaser.Keyboard.X);
     game.state.start('menu');
   }
 }

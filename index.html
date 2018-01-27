@@ -6,21 +6,22 @@
         <title>hello phaser!</title>
         <script src="http://dev.lateksis.win/phaser-ce/build/phaser.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="salamandra/util.js"></script>
+        <script src="salamandra/ship.js"></script>
+        <script src="salamandra/enemy.js"></script>
+        <script src="salamandra/load.js"></script>
+        <script src="salamandra/menu.js"></script>
+        <script src="salamandra/play.js"></script>
+        <script src="salamandra/game.js"></script>
     </head>
     <body>
-
-    <script src="salamandra/util.js"></script>
-    <script src="salamandra/ship.js"></script>
-    <script src="salamandra/enemy.js"></script>
-    <script src="salamandra/load.js"></script>
-    <script src="salamandra/menu.js"></script>
-    <script src="salamandra/play.js"></script>
-    <script src="salamandra/game.js"></script>
+      <div id="gameWindow"></div>
 
     <p>
       <input type="checkbox" id="collision_box" /> No collision check
       <input type="checkbox" id="turbo_box" /> Turbo mode
       <input type="checkbox" id="damage_box" /> Super damage
+         |  Use these buttons for debugging. Or if the game is too hard.
     </p>
 
     <script>
@@ -57,5 +58,9 @@
       }
     });
     </script>
+    <p>Instructions:</p>
+    <p>SPACEBAR or Z - Shoot  |  M or X - Select powerup  |  Arrow keys - move</p>
+    <p>Pick up blue power capsules to advance the powerup reel.</p>
+    <p>If your keyboard has ghosting issues, use alternative buttons for shooting/powerups</p>
     </body>
 </html>
