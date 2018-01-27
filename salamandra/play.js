@@ -219,7 +219,9 @@ var playState= {
 function bullet_hit_enemy(bullet, enemy) {
   //Destroy both enemy and bullet on collision
   bullet.kill();
-  enemy.health -= ship.power;
+  if (enemy.inCamera) {
+    enemy.health -= ship.power;
+  }
   if (enemy.health <= 0 || damageMode) {
     enemy.kill();
     increase_score(enemy.score);

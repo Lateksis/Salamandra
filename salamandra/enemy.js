@@ -25,7 +25,7 @@ class Enemy extends Phaser.Sprite {
 
   autoKill() {
     //Function to kill offscreen enemies
-    if (this.exists && this.x < this.game.camera.x) {
+    if (this.exists && (this.x + 32) < this.game.camera.x) {
       this.kill();
     }
 
@@ -401,7 +401,7 @@ class Boss_1 extends Enemy {
   stage_text() {
     stageTitle = new TitleText(game, game.camera.width + game.camera.x + 400, 140, 'STAGE 1', 1);
     this.game.add.existing(stageTitle);
-    stageTitle2 = new TitleText(game, game.camera.x - 400, 180, 'COMPLETED!', 2);
+    stageTitle2 = new TitleText(game, game.camera.x - 400, 180, 'CLEAR!', 2);
     this.game.add.existing(stageTitle2);
   }
 
