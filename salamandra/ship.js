@@ -208,7 +208,7 @@ class Ship extends Phaser.Sprite {
 
   damage_shield() {
     this.shield -= 1;
-    weaponWheel.getChildAt(4).frame = 1;
+    weaponWheel.getChildAt(4).frame = 0;
     if (this.shield == 0) {
       this.shieldSprite.kill();
     }

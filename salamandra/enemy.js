@@ -340,7 +340,7 @@ class Boss_1 extends Enemy {
       let dist_y = this.body.y - ship.body.y;
       let bullet = enemyBullets.getFirstExists(false);
       if (bullet) {
-        bullet.reset(this.body.x - 32, this.body.y + 12);
+        bullet.reset(this.body.x, this.body.y + 30);
         bullet.animations.add('glow');
         bullet.animations.play('glow', 10, true);
         bullet.body.velocity.x = -dist_x;
