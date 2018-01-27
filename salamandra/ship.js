@@ -4,7 +4,7 @@ class Ship extends Phaser.Sprite {
     this.selector = -1;
     this.speed = 0;
     this.fireRate = 0;
-    this.damage = 0;
+    this.power = 1;
     this.option = 0;
     this.shield = 0;
     this.bulletTime = 0;
@@ -73,7 +73,7 @@ class Ship extends Phaser.Sprite {
     this.selector = -1;
     this.speed = 0;
     this.fireRate = 0;
-    this.damage = 0;
+    this.power = 1;
     this.option = 0;
     this.shield = 0;
     this.bulletTime = 0;
@@ -125,7 +125,12 @@ class Ship extends Phaser.Sprite {
       }
     }
     if (this.selector == 2) {
-      weaponText.setText('POWER');
+      if (this.power >= 2) {
+        this.selector += 1;
+      }
+      else {
+        weaponText.setText('POWER');
+      }
     }
     if (this.selector == 3) {
       if (this.option >= 2) {
@@ -137,13 +142,15 @@ class Ship extends Phaser.Sprite {
     }
     if (this.selector == 4) {
       if (this.shield >= 2) {
-        this.selector = 1;
+        this.selector = -1;
       }
       else {
         weaponText.setText('SHIELD');
       }
     }
-    weaponWheel.getChildAt(this.selector).frame = 1;
+    if (this.selector != -1) {
+      weaponWheel.getChildAt(this.selector).frame = 1;
+    }
   }
 
   select_weapon() {
@@ -159,11 +166,17 @@ class Ship extends Phaser.Sprite {
       this.fireRate += 1;
       weaponWheel.getChildAt(1).frame = 0;
       this.selector = -1;
+      if (this.fireRate >= 5) {
+        weaponWheel.getChildAt(1).frame = 2;
+      }
     }
     else if(this.selector == 2) {
-      this.damage += 1;
+      this.power += 0.2;
       weaponWheel.getChildAt(2).frame = 0;
       this.selector = -1;
+      if (this.power >= 2) {
+        weaponWheel.getChildAt(2).frame = 2;
+      }
     }
     else if(this.selector == 3) {
       weaponWheel.getChildAt(3).frame = 0;
@@ -181,6 +194,9 @@ class Ship extends Phaser.Sprite {
       if (this.shield == 1) {
         this.add_shield();
       }
+      if (this.shield >= 2) {
+        weaponWheel.getChildAt(4).frame = 2;
+      }
     }
     weaponText.setText(' ');
   }
@@ -192,6 +208,7 @@ class Ship extends Phaser.Sprite {
 
   damage_shield() {
     this.shield -= 1;
+    weaponWheel.getChildAt(4).frame = 1;
     if (this.shield == 0) {
       this.shieldSprite.kill();
     }

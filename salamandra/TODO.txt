@@ -40,7 +40,19 @@
 15.1.2018
 
 + Make a fading title for stage 1 - DONE
+
 19.1.2018
+
+21.1.2018
+
++ Create new enemy type SPAWNER - DONE
++ Create new enemy type SPAWN - DONE
+
+27.1.2018
+
++ Give cannons proper orientation
++ Create new enemy type BOSS
++ 
 
 
 + COMPLETE STAGE I by:

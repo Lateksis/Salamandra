@@ -17,6 +17,8 @@ var m_key;
 var weaponWheel;
 var weaponText;
 var enemies;
+var powerups;
+var boss_killed = false;
 
 var map;
 var layer;

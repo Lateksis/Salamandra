@@ -28,6 +28,9 @@ var loadState= {
     game.load.spritesheet('gate', 'salamandra/img/gate.png', 32, 32);
     game.load.spritesheet('gate_core', 'salamandra/img/gate_core.png', 32, 32, 6);
     game.load.spritesheet('rocket', 'salamandra/img/rocket.png', 20, 12, 3);
+    game.load.spritesheet('spawner_up', 'salamandra/img/spawner_up.png', 64, 32);
+    game.load.spritesheet('spawner_down', 'salamandra/img/spawner_down.png', 64, 32);
+    game.load.spritesheet('stage_1_boss', 'salamandra/img/stage_1_boss.png', 32, 64);
 
 
   },

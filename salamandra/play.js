@@ -51,6 +51,7 @@ var playState= {
       //Create Ship
       ship = new Ship(game);
       game.physics.enable(ship);
+      ship.body.setSize(20,10);
       game.add.existing(ship);
       game.add.existing(ship.shieldSprite);
       this.game.input.keyboard.addKey(Phaser.Keyboard.P).onDown.add(function () {
@@ -104,6 +105,12 @@ var playState= {
           else if (object.type == 'gate') {
             let enemy = new Gate(game,object.x,object.y, true, object.properties.size_up, object.properties.size_down);
           }
+          else if (object.type == 'spawner') {
+            let enemy = new Spawner(game,object.x,object.y, object.properties.orientation);
+          }
+          else if (object.type == 'boss_1') {
+            let enemy = new Boss_1(game,object.x,object.y);
+          }
         }
       }
       //Transparent front layer
@@ -125,70 +132,82 @@ var playState= {
       if (!ship.exists) {
         return false;
       }
-      if (game.camera.x > 4070 && game.camera.x < 7250 && layer3.alpha > 0.2) {
-      layer3.alpha -= 0.005;
-      }
-      if (game.camera.x > 7250 && layer3.alpha < 1) {
-      layer3.alpha += 0.005;
-      }
-      // Check for collisions
-      if (!noCollision) {
-        game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
-        game.physics.arcade.collide(enemies, layer);
-        game.physics.arcade.collide(enemies, enemies);
-        game.physics.arcade.collide(ship, enemies, bullet_hit_ship, null, this);
-        game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
+      if (!boss_killed) {
+
+        if (game.camera.x > 3500 && game.camera.x < 6770 && layer3.alpha > 0.2) {
+        layer3.alpha -= 0.005;
+        }
+        if (game.camera.x > 6770 && layer3.alpha < 1) {
+        layer3.alpha += 0.005;
+        }
+        // Check for collisions
+        if (!noCollision) {
+          game.physics.arcade.collide(ship, layer, ship_hit_wall, null, this);
+          game.physics.arcade.collide(enemies, layer);
+          game.physics.arcade.collide(enemies, enemies);
+          game.physics.arcade.collide(ship, enemies, bullet_hit_ship, null, this);
+          game.physics.arcade.collide(ship, enemyBullets, bullet_hit_ship, null, this);
+          game.physics.arcade.overlap(ship, powerups, pickup_powerup, null, this);
+          game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
+          game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
+        }
         game.physics.arcade.overlap(bullets, enemies, bullet_hit_enemy, null, this);
-        game.physics.arcade.overlap(ship, powerups, pickup_powerup, null, this);
-        game.physics.arcade.collide(bullets, layer, bullet_hit_wall, null, this);
-        game.physics.arcade.collide(enemyBullets, layer, bullet_hit_wall, null, this);
-      }
 
 
 
-      //Scroll screen
-      if (updateTimer >= screenDelay) {
-        updateTimer = 0;
-        if ((game.camera.x + game.camera.width) < 12512) {
-          game.camera.x += step;
-          ship.body.x += step;
-          ship.shieldSprite.x += step;
-          scoreText.x += step;
-          stageTitle.x += step;
-          stageTitle2.x += step;
-          weaponText.x += step;
-          starfield.x += step;
-          weaponWheel.x += step;
-          weaponTag.x += step;
-          enemies.forEach(function(enemy) {
-            if (!enemy.exists || !enemy.inCamera || enemy.body.immovable) {
-              return false
-            }
-            enemy.x += step;
+        //Scroll screen
+        if (updateTimer >= screenDelay) {
+          updateTimer = 0;
+          if ((game.camera.x + game.camera.width) < 12480) {
+            game.camera.x += step;
+            ship.body.x += step;
+            ship.shieldSprite.x += step;
+            scoreText.x += step;
+            stageTitle.x += step;
+            stageTitle2.x += step;
+            weaponText.x += step;
+            starfield.x += step;
+            weaponWheel.x += step;
+            weaponTag.x += step;
+            enemies.forEach(function(enemy) {
+              if (!enemy.exists || !enemy.inCamera || enemy.body.immovable) {
+                return false
+              }
+              enemy.x += step;
+              }, this);
+            options.forEachExists(function(opt) {
+              opt.body.x += step;
+
             }, this);
-          options.forEachExists(function(opt) {
-            opt.body.x += step;
+          }
+          starfield.tilePosition.x -= 1;
+          if (turboMode) {
+            screenDelay = 0;
+            step = 10;
+          }
 
-          }, this);
+
         }
-        starfield.tilePosition.x -= 1;
-        if (turboMode) {
-          screenDelay = 0;
-        }
-
-
+        updateTimer ++;
+        // Autokill enemies that are past camera
+        enemies.forEach(function(enemy) {
+          enemy.autoKill();
+        });
+        //Kill bullets outside screen to preven offscreen kills
+        bullets.forEachAlive(function(bullet) {
+          if (bullet.x > game.camera.x + game.camera.width) {
+            bullet.kill();
+            map.layers[0].x -= 20;
+          }
+        }, this);
       }
-      updateTimer ++;
-
-      //Kill bullets outside screen to preven offscreen kills
-      bullets.forEachAlive(function(bullet) {
-        if (bullet.x > game.camera.x + game.camera.width) {
-          bullet.kill();
-          map.layers[0].x -= 20;
-        }
-      }, this);
+      else {
+        //End level
+        layer.alpha -= 0.005;
+      }
 
     },
+
 
 };
 
@@ -196,8 +215,8 @@ var playState= {
 function bullet_hit_enemy(bullet, enemy) {
   //Destroy both enemy and bullet on collision
   bullet.kill();
-  enemy.health -= 1;
-  if (enemy.health <= 0) {
+  enemy.health -= ship.power;
+  if (enemy.health <= 0 || damageMode) {
     enemy.kill();
     increase_score(enemy.score);
   }
@@ -256,16 +275,17 @@ function reset_game() {
     powerup.kill();
   }, this);
   game.camera.reset();
-  ship.reset(20,100);
-  scoreText.reset(10, 350);
-  weaponText.reset(160, 348);
-  weaponTag.reset(125, 345);
+  game.camera.x += 600;
+  ship.reset(610,100);
+  scoreText.reset(610, 350);
+  weaponText.reset(760, 348);
+  weaponTag.reset(725, 345);
   score = 0;
   scoreText.setText(score);
   scoreText.alignTo(weaponTag, Phaser.LEFT_TOP, 5);
-  weaponWheel.x = 0;
+  weaponWheel.x = 600;
   layer3.alpha = 1;
-  starfield.reset();
+  starfield.reset(600,0);
 }
 
 function spawn_powerup(x, y) {

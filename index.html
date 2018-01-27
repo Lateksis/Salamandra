@@ -19,12 +19,14 @@
     <p>
       <input type="checkbox" id="collision_box" /> No collision check
       <input type="checkbox" id="turbo_box" /> Turbo mode
+      <input type="checkbox" id="damage_box" /> Super damage
     </p>
 
     <script>
     /* DEBUG VARIABLES */
     var noCollision = false;
     var turboMode = false;
+    var damageMode = false;
 
       /* DEBUG FUNCTIONS */
     $("#collision_box").change(function() {
@@ -42,6 +44,15 @@
       }
       else {
         turboMode = false;
+      }
+    });
+
+    $("#damage_box").change(function() {
+      if(this.checked) {
+        damageMode = true;
+      }
+      else {
+        damageMode = false;
       }
     });
     </script>
