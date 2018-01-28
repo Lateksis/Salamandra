@@ -37,6 +37,7 @@ var loadState= {
     game.load.audio('fire_sound', 'salamandra/sound/weapon_fire.wav');
     game.load.audio('hit_sound', 'salamandra/sound/weapon_hit.wav');
     game.load.audio('explode_sound', 'salamandra/sound/enemy_explode.wav');
+    game.load.audio('ship_explode_sound', 'salamandra/sound/ship_explode.wav');
 
     game.load.audio('stage_0_music', 'salamandra/sound/stage_0.ogg');
 

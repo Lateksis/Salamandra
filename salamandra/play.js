@@ -131,6 +131,7 @@ var playState= {
       shoot_sound = game.sound.add('fire_sound');
       hit_sound = game.sound.add('hit_sound');
       explode_sound = game.sound.add('explode_sound');
+      ship_explode_sound = game.sound.add('ship_explode_sound');
       bg_music = game.add.audio('stage_0_music');
       bg_music.play();
       bg_music.volume = 0.7;
@@ -253,6 +254,7 @@ function bullet_hit_ship(ship, bullet) {
   bullet.kill();
   if (ship.shield == 0) {
     bg_music.stop();
+    ship_explode_sound.play();
     var explosion = game.add.sprite(ship.x, ship.y,'ship_explode');
     explosion.animations.add('explode')
     explosion.animations.play('explode', 60, false, true);
@@ -272,6 +274,7 @@ function ship_hit_wall(ship, wall) {
   //Destroy ship on collision
   var explosion = game.add.sprite(ship.body.x - 32, ship.body.y,'ship_explode');
   bg_music.stop();
+  ship_explode_sound.play();
   explosion.animations.add('explode')
   explosion.animations.play('explode', 60, false, true);
   ship.kill();

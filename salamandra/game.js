@@ -27,6 +27,7 @@ var select_sound;
 var shoot_sound;
 var hit_sound;
 var explode_sound;
+var ship_explode_sound;
 var bg_music;
 
 var map;
