@@ -32,6 +32,14 @@ var loadState= {
     game.load.spritesheet('spawner_down', 'salamandra/img/spawner_down.png', 64, 32);
     game.load.spritesheet('stage_1_boss', 'salamandra/img/stage_1_boss.png', 32, 64);
 
+    game.load.audio('pickup', 'salamandra/sound/power_pickup.wav');
+    game.load.audio('select', 'salamandra/sound/select_powerup.wav');
+    game.load.audio('fire_sound', 'salamandra/sound/weapon_fire.wav');
+    game.load.audio('hit_sound', 'salamandra/sound/weapon_hit.wav');
+    game.load.audio('explode_sound', 'salamandra/sound/enemy_explode.wav');
+
+    game.load.audio('stage_0_music', 'salamandra/sound/stage_0.ogg');
+
 
   },
   create: function() {

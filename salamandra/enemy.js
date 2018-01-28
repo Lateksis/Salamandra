@@ -4,6 +4,7 @@ class Enemy extends Phaser.Sprite {
     super(game, x, y, sprite);
     this.spawn_x = x;
     this.spawn_y = y;
+    this.sound = false;
     game.physics.enable(this);
     enemies.add(this);
   }
@@ -15,6 +16,7 @@ class Enemy extends Phaser.Sprite {
         explosion.animations.add('enemy_explode')
         explosion.animations.play('enemy_explode', 60, false, true);
         explosion.lifespan = 1000;
+        explode_sound.play();
       }
       if (this.dropPowerUp) {
         game.time.events.add(Phaser.Timer.SECOND * 0.5, spawn_powerup, this, this.body.x, this.body.y);
@@ -25,7 +27,7 @@ class Enemy extends Phaser.Sprite {
 
   autoKill() {
     //Function to kill offscreen enemies
-    if (this.exists && (this.x + 32) < this.game.camera.x) {
+    if (this.exists && (this.x + 64) < this.game.camera.x) {
       this.kill();
     }
 
@@ -166,6 +168,7 @@ class Cannon extends Enemy {
     this.score = 1000;
     this.orientation = orientation;
     this.dropPowerUp = true;
+    this.sound=true;
 
   }
 
@@ -225,6 +228,7 @@ class Cannon extends Enemy {
           this.max_health = 10;
           this.animations.add('gate_core_glow');
           this.animations.play('gate_core_glow', 10, true);
+          this.sound = true;
         }
         else {
           super(game, x, y - 32, 'gate');
@@ -291,6 +295,7 @@ class Spawner extends Enemy {
     this.fireDelay = 0;
     this.score = 1000;
     this.dropPowerUp = true;
+    this.sound = true;
     this.spawnAnim = this.animations.add('spawn_animation');
   }
 
@@ -329,6 +334,7 @@ class Boss_1 extends Enemy {
     this.burstCount = 0;
     this.burstTimer = 0;
     this.boss = true;
+    this.sound = true;
   }
 
 

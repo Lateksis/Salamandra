@@ -125,6 +125,16 @@ var playState= {
 
       map.setCollisionBetween(0, 99, true, layer);
 
+      //Create sounds
+      powerup_sound = game.sound.add('pickup');
+      select_sound = game.sound.add('select');
+      shoot_sound = game.sound.add('fire_sound');
+      hit_sound = game.sound.add('hit_sound');
+      explode_sound = game.sound.add('explode_sound');
+      bg_music = game.add.audio('stage_0_music');
+      bg_music.play();
+      bg_music.volume = 0.7;
+
 
     },
 
@@ -222,10 +232,14 @@ function bullet_hit_enemy(bullet, enemy) {
   if (enemy.inCamera) {
     enemy.health -= ship.power;
   }
+  if (enemy.sound) {
+    hit_sound.play();
+  }
   if (enemy.health <= 0 || damageMode) {
     enemy.kill();
     increase_score(enemy.score);
   }
+
 }
 
 function bullet_hit_wall(bullet, wall) {
@@ -238,6 +252,7 @@ function bullet_hit_ship(ship, bullet) {
   //Destroy bullet and ship on collision
   bullet.kill();
   if (ship.shield == 0) {
+    bg_music.stop();
     var explosion = game.add.sprite(ship.x, ship.y,'ship_explode');
     explosion.animations.add('explode')
     explosion.animations.play('explode', 60, false, true);
@@ -256,6 +271,7 @@ function bullet_hit_ship(ship, bullet) {
 function ship_hit_wall(ship, wall) {
   //Destroy ship on collision
   var explosion = game.add.sprite(ship.body.x - 32, ship.body.y,'ship_explode');
+  bg_music.stop();
   explosion.animations.add('explode')
   explosion.animations.play('explode', 60, false, true);
   ship.kill();
@@ -292,6 +308,7 @@ function reset_game() {
   weaponWheel.x = 600;
   layer3.alpha = 1;
   starfield.reset(600,0);
+  bg_music.restart();
 }
 
 function spawn_powerup(x, y) {
@@ -307,6 +324,7 @@ function pickup_powerup(ship, powerup) {
   ship.next_weapon();
   powerup.kill();
   increase_score(150);
+  powerup_sound.play();
 }
 
 function increase_score(points) {

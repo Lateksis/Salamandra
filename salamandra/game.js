@@ -22,6 +22,13 @@ var enemies;
 var powerups;
 var boss_killed = false;
 
+var powerup_sound;
+var select_sound;
+var shoot_sound;
+var hit_sound;
+var explode_sound;
+var bg_music;
+
 var map;
 var layer;
 

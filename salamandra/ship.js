@@ -89,6 +89,7 @@ class Ship extends Phaser.Sprite {
         bullet.animations.add('glow');
         bullet.animations.play('glow', 10, true);
         bullet.body.velocity.x = 400;
+        shoot_sound.play();
         this.bulletTime = this.game.time.now + (400 - (this.fireRate * 20));
         options.forEachExists(function(opt) {
           bullet = bullets.getFirstExists(false);
@@ -161,6 +162,7 @@ class Ship extends Phaser.Sprite {
       if (this.speed >= 10) {
         weaponWheel.getChildAt(0).frame = 2;
       }
+      select_sound.play();
     }
     else if(this.selector == 1) {
       this.fireRate += 1;
@@ -169,6 +171,7 @@ class Ship extends Phaser.Sprite {
       if (this.fireRate >= 5) {
         weaponWheel.getChildAt(1).frame = 2;
       }
+      select_sound.play();
     }
     else if(this.selector == 2) {
       this.power += 0.2;
@@ -177,6 +180,7 @@ class Ship extends Phaser.Sprite {
       if (this.power >= 2) {
         weaponWheel.getChildAt(2).frame = 2;
       }
+      select_sound.play();
     }
     else if(this.selector == 3) {
       weaponWheel.getChildAt(3).frame = 0;
@@ -186,6 +190,7 @@ class Ship extends Phaser.Sprite {
       if (this.option >= 2) {
         weaponWheel.getChildAt(3).frame = 2;
       }
+      select_sound.play();
     }
     else if(this.selector == 4) {
       this.shield += 1;
@@ -197,6 +202,7 @@ class Ship extends Phaser.Sprite {
       if (this.shield >= 2) {
         weaponWheel.getChildAt(4).frame = 2;
       }
+      select_sound.play();
     }
     weaponText.setText(' ');
   }
