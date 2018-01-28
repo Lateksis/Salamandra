@@ -272,7 +272,7 @@ function bullet_hit_ship(ship, bullet) {
 
 function ship_hit_wall(ship, wall) {
   //Destroy ship on collision
-  var explosion = game.add.sprite(ship.body.x - 32, ship.body.y,'ship_explode');
+  var explosion = game.add.sprite(ship.x, ship.y,'ship_explode');
   bg_music.stop();
   ship_explode_sound.play();
   explosion.animations.add('explode')
@@ -312,6 +312,7 @@ function reset_game() {
   layer3.alpha = 1;
   starfield.reset(600,0);
   bg_music.restart();
+  bg_music.volume = 0.7;
 }
 
 function spawn_powerup(x, y) {
