@@ -402,6 +402,12 @@ class Boss_1 extends Enemy {
 
   boss_is_killed() {
     boss_killed = true;
+    var msg = {
+      "messageType": "SCORE",
+      "score": score
+    };
+    window.parent.postMessage(msg, "*");
+    //The above shit submits score, used in the WSD 2018 project
   }
 
   stage_text() {
