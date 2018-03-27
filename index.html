@@ -57,6 +57,17 @@
         damageMode = false;
       }
     });
+
+    $(document).ready( function() {
+      var message =  {
+        messageType: "SETTING",
+        options: {
+          "width": 700, //Integer
+          "height": 300 //Integer
+        }
+      };
+      window.parent.postMessage(message, "*");
+    });
     </script>
     <p>Instructions:</p>
     <p>SPACEBAR or Z - Shoot  |  M or X - Select powerup  |  Arrow keys - move</p>
