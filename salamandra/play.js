@@ -291,7 +291,7 @@ function reset_game() {
   //Reset enemies on their spawn positions
   var msg = {
     "messageType": "SCORE",
-    "score": score;
+    "score": score
   };
   window.parent.postMessage(msg, "*");
   //The above shit submits score, used in the WSD 2018 project
