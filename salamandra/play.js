@@ -289,6 +289,12 @@ function ship_hit_wall(ship, wall) {
 function reset_game() {
   //If ship has been destroyed, reset everything
   //Reset enemies on their spawn positions
+  var msg = {
+    "messageType": "SCORE",
+    "score": parseFloat($("#score").text())
+  };
+  window.parent.postMessage(msg, "*");
+  //The above shit submits score, used in the WSD 2018 project
   enemies.forEach(function(enemy) {
     enemy.reset(enemy.spawn_x, enemy.spawn_y);
     enemy.health = enemy.max_health;
